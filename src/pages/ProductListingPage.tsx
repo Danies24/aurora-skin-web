@@ -1,7 +1,9 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProducts } from "@/constants/products";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 const ProductListingPage = () => {
   const products = getAllProducts();
@@ -9,6 +11,9 @@ const ProductListingPage = () => {
 
   return (
     <div className="min-h-screen bg-herb-cream">
+      {/* Hamburger Menu */}
+      <HamburgerMenu />
+
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
