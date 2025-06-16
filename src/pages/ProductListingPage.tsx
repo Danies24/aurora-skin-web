@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,12 +16,6 @@ const ProductListingPage = () => {
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Link
-            to="/"
-            className="text-herb-green hover:text-herb-green-dark transition-colors"
-          >
-            ← Back to Home
-          </Link>
           <h1 className="font-playfair text-3xl sm:text-4xl font-bold text-herb-green-dark mt-4">
             Our Sacred Formulas
           </h1>
@@ -42,7 +35,7 @@ const ProductListingPage = () => {
               style={{ animationDelay: `${index * 0.2}s` }}
             >
               <CardContent className="p-0">
-                <div className="relative overflow-hidden rounded-t-lg">
+                <div className="relative overflow-hidden rounded-t-lg p-6">
                   <img
                     src={product.images[0]}
                     alt={product.name}
@@ -57,16 +50,6 @@ const ProductListingPage = () => {
                       ₹{product.variants[0].price}
                     </p>
                   </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="font-playfair text-xl font-bold text-herb-green-dark mb-2">
-                    {product.name}
-                  </h3>
-                  <p className="font-inter text-herb-green-dark/70 mb-6">
-                    {product.benefit}
-                  </p>
-
                   <Button
                     className="w-full bg-herb-green hover:bg-herb-green-dark text-white font-inter font-semibold py-3 rounded-full transition-all duration-300"
                     onClick={() => navigate(`/product/${product.id}`)}
