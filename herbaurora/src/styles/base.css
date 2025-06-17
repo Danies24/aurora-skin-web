@@ -1,0 +1,74 @@
+@import "./theme.css";
+
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-color: var(--border);
+  scroll-margin: 0;
+}
+
+/* Prevent overscroll behavior */
+html {
+  height: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+  position: relative;
+  background-color: var(--herb-cream);
+  scroll-behavior: smooth;
+  color: var(--foreground);
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+}
+
+/* Prevent pull-to-refresh on mobile */
+body {
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure main content takes full height */
+main {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Ensure images don't cause overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure fixed elements don't cause overflow */
+.fixed {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+
+/* Ensure absolute elements don't cause overflow */
+.absolute {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  background-color: var(--input);
+  border-radius: var(--radius);
+}

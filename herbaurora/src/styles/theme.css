@@ -1,0 +1,90 @@
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+
+  --primary: #1a1a1a;
+  --primary-foreground: #f9f9f9;
+
+  --secondary: #f1f5f9;
+  --secondary-foreground: #1a1a1a;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  --accent: #f1f5f9;
+  --accent-foreground: #1a1a1a;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #0f172a;
+
+  --radius: 8px;
+
+  --sidebar-background: #fafafa;
+  --sidebar-foreground: #1e293b;
+  --sidebar-primary: #0f172a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #3b82f6;
+
+  /* Herb Aurora specific colors */
+  --herb-green: #2c5530;
+  --herb-green-rgb: 44, 85, 48;
+  --herb-green-light: #4a7850;
+  --herb-green-dark: #1a331d;
+  --herb-turmeric: #ffd700;
+  --herb-turmeric-dark: #e6c200;
+  --herb-cream: #fffaf0;
+  --herb-cream-rgb: 255, 250, 240;
+  --herb-rose: #ff69b4;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #f9f9f9;
+
+  --card: #0a0a0a;
+  --card-foreground: #f9f9f9;
+
+  --popover: #0a0a0a;
+  --popover-foreground: #f9f9f9;
+
+  --primary: #f9f9f9;
+  --primary-foreground: #1a1a1a;
+
+  --secondary: #1f2937;
+  --secondary-foreground: #f9f9f9;
+
+  --muted: #1f2937;
+  --muted-foreground: #94a3b8;
+
+  --accent: #1f2937;
+  --accent-foreground: #f9f9f9;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #f9f9f9;
+
+  --border: #1f2937;
+  --input: #1f2937;
+  --ring: #93c5fd;
+
+  --sidebar-background: #0f172a;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #3b82f6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: #1e293b;
+  --sidebar-ring: #3b82f6;
+}

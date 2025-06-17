@@ -1,0 +1,140 @@
+.search-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.search-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-modal {
+  background: #e9eef5;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.search-modal-overlay.open .search-modal {
+  transform: translateY(0);
+}
+
+.search-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--herb-green-dark);
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.search-modal-close:hover {
+  color: var(--herb-green);
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--herb-green-dark);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: white;
+  color: var(--herb-green-dark);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--herb-green);
+}
+
+.search-button {
+  background-color: var(--herb-green);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.search-button:not(:disabled):hover {
+  background-color: var(--herb-green-dark);
+}
+
+.search-icon {
+  font-size: 1.25rem;
+}
+
+.no-results {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--herb-green-dark);
+}
+
+.clear-filters {
+  background: none;
+  border: 2px solid var(--herb-green);
+  color: var(--herb-green);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.clear-filters:hover {
+  background-color: var(--herb-green);
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .search-modal {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .search-form {
+    flex-direction: column;
+  }
+
+  .search-button {
+    width: 100%;
+  }
+}

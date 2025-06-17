@@ -1,0 +1,149 @@
+.product-detail-page {
+  padding: 10rem 1rem;
+  background-color: var(--herb-cream);
+  min-height: 100vh;
+}
+
+.product-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.product-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.product-image-section {
+  width: 100%;
+  position: relative;
+}
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.product-image {
+  object-fit: cover;
+}
+
+.product-info-section {
+  padding: 2rem;
+}
+
+.product-name {
+  font-family: var(--font-herbal);
+  font-size: 2rem;
+  color: var(--herb-green-dark);
+  margin-bottom: 1rem;
+}
+
+.product-description {
+  color: var(--herb-green-dark);
+  opacity: 0.8;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.product-variants {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.variant-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--herb-green-dark);
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.variant-card:hover {
+  background-color: var(--herb-cream);
+}
+
+.variant-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.variant-size {
+  font-weight: 600;
+  color: var(--herb-green-dark);
+}
+
+.variant-weight {
+  color: var(--herb-green-dark);
+  opacity: 0.8;
+}
+
+.variant-price {
+  font-weight: 600;
+  color: var(--herb-green);
+}
+
+.order-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--herb-green);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.order-button:hover {
+  background-color: var(--herb-green-dark);
+}
+
+.order-button-icon {
+  font-size: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .product-detail-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .product-image-section {
+    min-height: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .product-info-section {
+    padding: 1.5rem;
+  }
+
+  .product-name {
+    font-size: 1.75rem;
+  }
+
+  .variant-card {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .variant-info {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}

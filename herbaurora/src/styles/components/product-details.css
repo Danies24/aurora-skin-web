@@ -1,0 +1,267 @@
+.product-details-page {
+  min-height: 100vh;
+  background-color: var(--herb-cream);
+  padding: 7rem 0;
+}
+
+.product-details-container {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.product-details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .product-details-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Image Carousel */
+.product-carousel {
+  position: relative;
+  height: 400px;
+}
+
+@media (min-width: 768px) {
+  .product-carousel {
+    height: 600px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-carousel {
+    height: 700px;
+  }
+}
+
+.carousel-container {
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.carousel-slides {
+  display: flex;
+  height: 100%;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  height: 100%;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.carousel-nav:hover {
+  background-color: white;
+}
+
+.carousel-prev {
+  left: 1rem;
+}
+
+.carousel-next {
+  right: 1rem;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carousel-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.carousel-dot.active {
+  background-color: var(--herb-green);
+}
+
+.carousel-dot:not(.active) {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.price-tag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: var(--herb-green);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.price-tag-text {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+}
+
+/* Product Details */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.product-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.875rem;
+  color: var(--herb-green);
+  margin-bottom: 0.5rem;
+}
+
+.product-target {
+  color: var(--herb-green-dark);
+  font-style: italic;
+}
+
+.section-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+  color: var(--herb-green);
+  margin-bottom: 0.5rem;
+}
+
+.section-content {
+  color: var(--herb-green-dark);
+}
+
+/* Size Selection */
+.size-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.size-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--herb-green);
+  transition: all 0.3s ease;
+}
+
+.size-button.selected {
+  background-color: var(--herb-green);
+  color: white;
+}
+
+.size-button:not(.selected) {
+  color: var(--herb-green);
+}
+
+.size-button:not(.selected):hover {
+  background-color: rgba(var(--herb-green-rgb), 0.1);
+}
+
+/* Price Section */
+.price-section {
+  background-color: var(--herb-cream);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-divider {
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(var(--herb-green-rgb), 0.2);
+}
+
+.total-price {
+  color: var(--herb-green);
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+/* Features List */
+.features-list {
+  list-style-type: disc;
+  list-style-position: inside;
+  color: var(--herb-green-dark);
+}
+
+/* Order Button */
+.order-button {
+  width: 100%;
+  background-color: var(--herb-green);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.order-button:hover {
+  background-color: var(--herb-green-dark);
+}
+
+.order-button-icon {
+  font-size: 1.25rem;
+}
+
+/* Not Found State */
+.not-found {
+  min-height: 100vh;
+  background-color: var(--herb-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-found-content {
+  text-align: center;
+}
+
+.not-found-title {
+  font-size: 1.5rem;
+  font-family: "Playfair Display", serif;
+  margin-bottom: 1rem;
+}
+
+.not-found-link {
+  color: var(--herb-green);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.not-found-link:hover {
+  color: var(--herb-green-dark);
+}

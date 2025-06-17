@@ -1,0 +1,84 @@
+.footer {
+  background-color: var(--herb-green-dark);
+  color: var(--herb-cream);
+  padding: 4rem 0 2rem;
+}
+
+.footer-container {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.footer-brand {
+  margin-bottom: 1rem;
+}
+
+.footer-logo {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--herb-cream);
+  margin-bottom: 0.5rem;
+}
+
+.footer-tagline {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(var(--herb-cream-rgb), 0.7);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-link {
+  color: rgba(var(--herb-cream-rgb), 0.7);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--herb-cream);
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  color: var(--herb-cream);
+  transition: color 0.3s ease;
+}
+
+.social-link:hover {
+  color: var(--herb-turmeric);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(var(--herb-cream-rgb), 0.1);
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.footer-copyright {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(var(--herb-cream-rgb), 0.7);
+}
