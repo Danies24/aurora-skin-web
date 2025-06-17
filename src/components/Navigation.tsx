@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoMenu, IoClose } from "react-icons/io5";
+import SearchBar from "./SearchBar";
 
 const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+
+  // Close menu when route changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -17,25 +23,38 @@ const Navigation: React.FC = () => {
 
   const handleWhatsAppClick = () => {
     const message = "Hi, I'm interested in your products. Can you help me?";
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/918248365737?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");
   };
 
   return (
-    <nav className="bg-white shadow-sm fixed w-full top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center" onClick={closeMenu}>
-            <span className="text-2xl font-herbal text-herb-green">
-              Herb Aurora
-            </span>
+          <Link to="/" className="flex-shrink-0">
+            <img src="/logo.png" alt="Aurora Skin" className="h-8 w-auto" />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Mobile menu button */}
+          <div className="flex items-center gap-4 md:hidden">
+            <SearchBar />
+            <button
+              onClick={toggleMenu}
+              className="text-herb-green hover:text-herb-green-dark transition-colors"
+            >
+              {isMenuOpen ? (
+                <IoClose className="h-6 w-6" />
+              ) : (
+                <IoMenu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
+
+          {/* Desktop menu */}
+          <div className="hidden md:flex md:items-center md:space-x-8">
             <Link
               to="/"
               className={`text-herb-green-dark hover:text-herb-green transition-colors ${
@@ -60,6 +79,14 @@ const Navigation: React.FC = () => {
             >
               About Us
             </Link>
+            <Link
+              to="/contact"
+              className={`text-herb-green-dark hover:text-herb-green transition-colors ${
+                location.pathname === "/contact" ? "font-semibold" : ""
+              }`}
+            >
+              Contact
+            </Link>
             <button
               onClick={handleWhatsAppClick}
               className="bg-herb-green text-white px-4 py-2 rounded-lg hover:bg-herb-green-dark transition-colors flex items-center gap-2"
@@ -68,59 +95,52 @@ const Navigation: React.FC = () => {
               Contact Us
             </button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className="md:hidden text-herb-green-dark hover:text-herb-green transition-colors"
-          >
-            {isMenuOpen ? (
-              <IoClose className="w-6 h-6" />
-            ) : (
-              <IoMenu className="w-6 h-6" />
-            )}
-          </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white border-t">
-          <div className="px-4 py-2 space-y-4">
-            <Link
-              to="/"
-              className="block text-herb-green-dark hover:text-herb-green transition-colors py-2"
-              onClick={closeMenu}
-            >
-              Home
-            </Link>
-            <Link
-              to="/products"
-              className="block text-herb-green-dark hover:text-herb-green transition-colors py-2"
-              onClick={closeMenu}
-            >
-              Products
-            </Link>
-            <Link
-              to="/about"
-              className="block text-herb-green-dark hover:text-herb-green transition-colors py-2"
-              onClick={closeMenu}
-            >
-              About Us
-            </Link>
-            <button
-              onClick={() => {
-                closeMenu();
-                handleWhatsAppClick();
-              }}
-              className="w-full bg-herb-green text-white px-4 py-2 rounded-lg hover:bg-herb-green-dark transition-colors flex items-center justify-center gap-2"
-            >
-              <FaWhatsapp className="text-xl" />
-              Contact Us
-            </button>
-          </div>
+      {/* Mobile menu */}
+      <div
+        className={`md:hidden ${
+          isMenuOpen ? "block" : "hidden"
+        } bg-white border-t border-herb-green/10`}
+      >
+        <div className="px-4 pt-2 pb-3 space-y-1">
+          <Link
+            to="/"
+            className="block px-3 py-2 text-herb-green hover:text-herb-green-dark transition-colors"
+          >
+            Home
+          </Link>
+          <Link
+            to="/about"
+            className="block px-3 py-2 text-herb-green hover:text-herb-green-dark transition-colors"
+          >
+            About
+          </Link>
+          <Link
+            to="/products"
+            className="block px-3 py-2 text-herb-green hover:text-herb-green-dark transition-colors"
+          >
+            Products
+          </Link>
+          <Link
+            to="/contact"
+            className="block px-3 py-2 text-herb-green hover:text-herb-green-dark transition-colors"
+          >
+            Contact
+          </Link>
+          <button
+            onClick={() => {
+              closeMenu();
+              handleWhatsAppClick();
+            }}
+            className="w-full bg-herb-green text-white px-4 py-2 rounded-lg hover:bg-herb-green-dark transition-colors flex items-center justify-center gap-2"
+          >
+            <FaWhatsapp className="text-xl" />
+            Contact Us
+          </button>
         </div>
-      )}
+      </div>
     </nav>
   );
 };

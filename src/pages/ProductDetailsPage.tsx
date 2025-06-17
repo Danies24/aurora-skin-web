@@ -52,7 +52,7 @@ const ProductDetailsPage: React.FC = () => {
 
   const handleWhatsAppOrder = () => {
     const message = `Hi, I'm interested in ordering:\n\nProduct: ${product.name}\nSize: ${product.variants[selectedVariant].size}\nPrice: ₹${product.variants[selectedVariant].price}`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/918248365737?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");
@@ -64,18 +64,18 @@ const ProductDetailsPage: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Image Carousel */}
-            <div className="relative">
+            <div className="relative h-[400px] md:h-[600px] lg:h-[700px]">
               <div
-                className="overflow-hidden rounded-lg shadow-lg"
+                className="overflow-hidden rounded-lg shadow-lg h-full"
                 ref={emblaRef}
               >
-                <div className="flex">
+                <div className="flex h-full">
                   {product.images.map((image, index) => (
-                    <div key={index} className="flex-[0_0_100%] min-w-0">
+                    <div key={index} className="flex-[0_0_100%] min-w-0 h-full">
                       <img
                         src={image}
                         alt={`${product.name} - Image ${index + 1}`}
-                        className="w-full h-[400px] object-cover"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   ))}

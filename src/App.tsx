@@ -9,6 +9,7 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
 import Navigation from "./components/Navigation";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Navigation />
         <div className="pt-16">
           {" "}

@@ -1,26 +1,33 @@
-
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, Search, X, Home, Grid3X3, User, MessageCircle } from 'lucide-react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Menu,
+  Search,
+  X,
+  Home,
+  Grid3X3,
+  User,
+  MessageCircle,
+} from "lucide-react";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const navigationLinks = [
-    { to: '/', label: 'Home', icon: Home },
-    { to: '/products', label: 'Categories', icon: Grid3X3 },
-    { to: '/about', label: 'About', icon: User },
-    { to: '/contact', label: 'Contact', icon: MessageCircle },
+    { to: "/", label: "Home", icon: Home },
+    { to: "/products", label: "Categories", icon: Grid3X3 },
+    { to: "/about", label: "About", icon: User },
+    { to: "/contact", label: "Contact", icon: MessageCircle },
   ];
 
   const handleLinkClick = () => {
@@ -30,7 +37,7 @@ const HamburgerMenu = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle search functionality here
-    console.log('Search query:', searchQuery);
+    console.log("Search query:", searchQuery);
     setIsOpen(false);
   };
 
@@ -48,8 +55,8 @@ const HamburgerMenu = () => {
           </Button>
         </SheetTrigger>
 
-        <SheetContent 
-          side="left" 
+        <SheetContent
+          side="left"
           className="w-80 bg-herb-cream border-r-2 border-herb-green/20 p-0 overflow-y-auto"
         >
           <SheetHeader className="p-6 pb-4 border-b border-herb-green/10">
@@ -104,7 +111,8 @@ const HamburgerMenu = () => {
                   100% Natural & Chemical-Free
                 </h4>
                 <p className="font-inter text-sm text-herb-green-dark/70 leading-relaxed">
-                  Handcrafted Tamil herbal skincare products for natural skin glow and care.
+                  Handcrafted Tamil herbal skincare products for natural skin
+                  glow and care.
                 </p>
               </div>
             </div>
@@ -122,12 +130,12 @@ const HamburgerMenu = () => {
                 className="w-full bg-herb-green hover:bg-herb-green-dark text-white font-inter font-medium py-2 rounded-lg transition-colors"
               >
                 <a
-                  href="https://wa.me/1234567890"
+                  href="https://wa.me/8248365737"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleLinkClick}
                 >
-                  Contact Us
+                  Whatsapp Us
                 </a>
               </Button>
             </div>

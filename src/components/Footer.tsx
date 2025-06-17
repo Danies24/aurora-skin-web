@@ -2,7 +2,7 @@ import { Instagram } from "lucide-react";
 
 const Footer = () => {
   const handleWhatsAppClick = () => {
-    window.open("https://wa.me/+919876543210", "_blank");
+    window.open("https://wa.me/+918248365737", "_blank");
   };
 
   const handleInstagramClick = () => {
