@@ -19,7 +19,7 @@ const ProductSection = () => {
   };
 
   const handleProductClick = (productId: string) => {
-    router.push(`/product/${productId}`);
+    router.push(`/products/${productId}`);
   };
 
   return (
@@ -35,7 +35,7 @@ const ProductSection = () => {
               className="product-card"
               onClick={() => handleProductClick(product.id)}
             >
-              <span className="product-ribbon">BUY2@699</span>
+              <span className="product-ribbon">BUY2@299</span>
               <div className="product-image-container">
                 <Image
                   src={product.images[0]}

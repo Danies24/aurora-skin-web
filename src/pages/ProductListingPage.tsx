@@ -1,6 +1,3 @@
-// ✅ Paste this inside your `ProductListingPage.tsx` or equivalent
-// Add/Update your CSS after this file
-
 "use client";
 
 import React, { useEffect, useState } from "react";
