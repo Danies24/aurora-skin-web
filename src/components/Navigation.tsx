@@ -7,25 +7,26 @@ import { IoMenu, IoClose } from "react-icons/io5";
 import SearchBar from "./SearchBar";
 import "@/styles/components/navigation.css";
 
-const Navigation: React.FC = () => {
+const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close menu when route changes
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [pathname]);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setIsScrolled(window.scrollY > 0);
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
   const handleWhatsAppClick = () => {
-    const message = "Hi, I'm interested in your products. Can you help me?";
+    const message =
+      "Hi, I&apos;m interested in your products. Can you help me?";
     const whatsappUrl = `https://wa.me/918248365737?text=${encodeURIComponent(
       message
     )}`;
@@ -36,18 +37,18 @@ const Navigation: React.FC = () => {
     <nav className="navigation">
       <div className="navigation-container">
         <div className="navigation-content">
-          {/* Logo */}
-          <Link href="/" className="navigation-logo">
-            <Image
-              src="/logo.png"
-              alt="Aurora Skin"
-              width={32}
-              height={32}
-              priority
-            />
-          </Link>
+          <div className="navigation-logo-container">
+            <Link href="/" className="navigation-logo">
+              <Image
+                src="/logo.png"
+                alt="Aurora Skin"
+                width={150}
+                height={50}
+                className="logo-image"
+              />
+            </Link>
+          </div>
 
-          {/* Mobile menu button */}
           <div className="navigation-mobile">
             <SearchBar />
             <button onClick={toggleMenu} className="menu-button">
@@ -55,7 +56,6 @@ const Navigation: React.FC = () => {
             </button>
           </div>
 
-          {/* Desktop menu */}
           <div className="navigation-desktop">
             <Link
               href="/"
@@ -73,7 +73,7 @@ const Navigation: React.FC = () => {
               href="/about"
               className={`nav-link ${pathname === "/about" ? "active" : ""}`}
             >
-              About Us
+              About
             </Link>
             <Link
               href="/contact"
@@ -82,8 +82,8 @@ const Navigation: React.FC = () => {
               Contact
             </Link>
             <button onClick={handleWhatsAppClick} className="whatsapp-button">
-              <FaWhatsapp />
-              Contact Us
+              <FaWhatsapp className="whatsapp-icon" />
+              Chat with Us
             </button>
           </div>
         </div>

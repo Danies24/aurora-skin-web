@@ -50,8 +50,8 @@ const PrivacyPolicyPage = () => {
             <section>
               <h2 className="privacy-section-title">WhatsApp Communication</h2>
               <p className="privacy-text">
-                By clicking "Order on WhatsApp", you consent to receive order
-                and product-related messages from us via WhatsApp.
+                By clicking &ldquo;Order on WhatsApp&rdquo;, you consent to
+                receive order and product-related messages from us via WhatsApp.
               </p>
             </section>
 
