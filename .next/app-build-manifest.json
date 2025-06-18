@@ -24,11 +24,16 @@
       "static/css/app/products/page.css",
       "static/chunks/app/products/page.js"
     ],
-    "/contact/page": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/contact/page.css",
-      "static/chunks/app/contact/page.js"
+      "static/chunks/app/_not-found/page.js"
+    ],
+    "/products/[productId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/products/[productId]/page.css",
+      "static/chunks/app/products/[productId]/page.js"
     ],
     "/about/page": [
       "static/chunks/webpack.js",
@@ -36,10 +41,11 @@
       "static/css/app/about/page.css",
       "static/chunks/app/about/page.js"
     ],
-    "/_not-found/page": [
+    "/contact/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/css/app/contact/page.css",
+      "static/chunks/app/contact/page.js"
     ]
   }
 }
