@@ -26,6 +26,7 @@ const ProductListingPage = () => {
       setProducts(filtered);
     } else {
       setProducts(getAllProducts());
+      console.log("hey");
     }
   }, [searchQuery]);
 
