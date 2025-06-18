@@ -13,6 +13,7 @@ const HelpSection = () => {
 
   const handleWhatsAppClick = (message: string) => {
     const encodedMessage = encodeURIComponent(message);
+    console.log("Console");
     window.open(`https://wa.me/+918248365737?text=${encodedMessage}`, "_blank");
   };
 
