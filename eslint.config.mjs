@@ -1,3 +1,5 @@
+// eslint.config.js
+import { defineConfig, globalIgnores } from "eslint/config";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -9,8 +11,9 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
+export default defineConfig([
   ...compat.extends("next/core-web-vitals", "next/typescript"),
-];
 
-export default eslintConfig;
+  // Global ignores
+  globalIgnores(["**/.config/**", "src/components/ui/**"]),
+]);

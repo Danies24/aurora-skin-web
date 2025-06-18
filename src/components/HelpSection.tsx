@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { FaWhatsapp, FaInstagram, FaYoutube } from "react-icons/fa";
 import "@/styles/components/help-section.css";
 
@@ -40,8 +39,8 @@ const HelpSection = () => {
       <div className="help-container">
         <h1 className="help-title">Need Help or Recommendations?</h1>
         <p className="help-description">
-          We're just a message away for product suggestions, order tracking, and
-          skincare guidance.
+          We&apos;re just a message away for product suggestions, order
+          tracking, and skincare guidance.
         </p>
 
         <div className="help-cta">

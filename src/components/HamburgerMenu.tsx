@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { FaBars, FaTimes, FaWhatsapp, FaSearch } from "react-icons/fa";
 import SearchModal from "./SearchModal";
 import "@/styles/components/hamburger-menu.css";
@@ -10,7 +9,6 @@ import "@/styles/components/hamburger-menu.css";
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const pathname = usePathname();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
