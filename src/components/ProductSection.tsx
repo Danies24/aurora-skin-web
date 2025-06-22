@@ -25,8 +25,10 @@ const ProductSection = () => {
   return (
     <section className="product-section">
       <div className="product-container">
-        <h2 className="product-title">Monsoon Essentials</h2>
-        <p className="product-subtitle">Everything You Need for Monsoon</p>
+        <h2 className="product-title">Best-Selling Herbal Bath Powders 🌿</h2>
+        <p className="product-subtitle">
+          Loved by 1000+ families for pure, gentle skincare
+        </p>
 
         <div className="product-grid">
           {products.map((product) => (

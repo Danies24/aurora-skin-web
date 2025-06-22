@@ -158,10 +158,11 @@
   .product-card {
     border-radius: 0.75rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transform: scale(0.9);
   }
 
   .product-image-container {
-    padding-top: 120%;
+    padding-top: 100%;
   }
 
   .product-details {
@@ -169,12 +170,12 @@
   }
 
   .product-name {
-    font-size: 0.5rem;
+    font-size: 0.55rem;
     margin-bottom: 0.25rem;
   }
 
   .product-price {
-    font-size: 0.5rem;
+    font-size: 0.55rem;
     margin-bottom: 0.75rem;
   }
 
