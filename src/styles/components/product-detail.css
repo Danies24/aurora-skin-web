@@ -9,6 +9,13 @@
   margin: 0 auto;
 }
 
+.carousel-slide {
+  position: relative;
+  aspect-ratio: 1/1; /* or 4/3, 16/9, etc. */
+  width: 100%;
+  max-width: 500px; /* optional, for max size */
+}
+
 .product-detail-grid {
   display: grid;
   grid-template-columns: 1fr;

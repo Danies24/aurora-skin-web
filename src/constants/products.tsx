@@ -37,11 +37,10 @@ export const products: Product[] = [
     usage:
       "Mix with water to form a paste. Apply evenly on body while bathing. Leave for 2-3 minutes and wash off with water.",
     images: [
-      "https://images.unsplash.com/photo-1582562124811-c09040d0a901?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      "/images/products/forHim1.jpg",
+      "/images/products/forHim2.jpg",
+      "/images/products/forHim3.jpg",
+      "/images/products/forHim4.jpg",
     ],
     color: "herb-turmeric",
     features: [
@@ -81,11 +80,10 @@ export const products: Product[] = [
     usage:
       "Mix with water to form a paste. Apply evenly on body while bathing. Leave for 2-3 minutes and wash off with water.",
     images: [
-      "https://images.unsplash.com/photo-1582562124811-c09040d0a901?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      "/images/products/forHer1.jpg",
+      "/images/products/forHer2.jpg",
+      "/images/products/forHer3.jpg",
+      "/images/products/forHer4.jpg",
     ],
     color: "herb-rose",
     features: [
@@ -125,11 +123,10 @@ export const products: Product[] = [
     usage:
       "Mix with water to form a gentle paste. Apply evenly on baby's skin while bathing. Leave for 1-2 minutes and wash off with water.",
     images: [
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      "/images/products/babyBoy1.jpg",
+      "/images/products/babyBoy2.jpg",
+      "/images/products/babyBoy3.jpg",
+      "/images/products/babyBoy4.jpg",
     ],
     color: "herb-green-light",
     features: [
@@ -169,11 +166,10 @@ export const products: Product[] = [
     usage:
       "Mix with water to form a gentle paste. Apply evenly on baby's skin while bathing. Leave for 1-2 minutes and wash off with water.",
     images: [
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      "/images/products/babyGirl1.jpg",
+      "/images/products/babyGirl2.jpg",
+      "/images/products/babyGirl3.jpg",
+      "/images/products/babyGirl4.jpg",
     ],
     color: "herb-pink",
     features: [
