@@ -37,7 +37,6 @@ const ProductSection = () => {
               className="product-card"
               onClick={() => handleProductClick(product.id)}
             >
-              <span className="product-ribbon">BUY2@299</span>
               <div className="product-image-container">
                 <Image
                   src={product.images[0]}

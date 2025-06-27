@@ -92,7 +92,8 @@
 .product-image-container {
   position: relative;
   width: 100%;
-  padding-top: 60%; /* reduced from 100% */
+  padding-top: 90%;
+  background-color: black;
 }
 
 .product-image {
@@ -105,7 +106,7 @@
 }
 
 .product-content {
-  padding: 1rem; /* reduced from 1.5rem */
+  padding: 1rem;
 }
 
 .product-rank {
