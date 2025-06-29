@@ -1,17 +1,20 @@
 "use client";
+
 import { auth } from "@/lib/firebase/firebase";
-import { useAuthStore } from "../../store/authStore";
+import { useAuthStore } from "@/store/authStore";
 import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
   ConfirmationResult,
 } from "firebase/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import "@/styles/components/login.css"; // custom CSS file
 
 declare global {
   interface Window {
+    recaptchaVerifier: RecaptchaVerifier;
     confirmationResult: ConfirmationResult;
   }
 }
@@ -21,42 +24,57 @@ export default function LoginPage() {
   const router = useRouter();
   const setPhone = useAuthStore((s) => s.setPhone);
 
-  const sendOtp = async () => {
-    if (!number || number.length !== 10)
-      return toast.error("Enter valid 10-digit number");
+  useEffect(() => {
+    // Attach reCAPTCHA only once
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: () => {
+            // reCAPTCHA solved
+          },
+        }
+      );
+    }
+  }, []);
 
-    const recaptcha = new RecaptchaVerifier(auth, "recaptcha-container", {
-      size: "invisible",
-    });
+  const sendOtp = async () => {
+    if (!number || number.length !== 10) {
+      toast.error("Enter valid 10-digit number");
+      return;
+    }
 
     try {
+      const appVerifier = window.recaptchaVerifier;
+
       const confirmation = await signInWithPhoneNumber(
         auth,
         `+91${number}`,
-        recaptcha
+        appVerifier
       );
+
       window.confirmationResult = confirmation;
       setPhone(number);
       router.push("/verify-otp");
     } catch (e) {
-      toast.error("OTP Failed");
-      console.log(e);
+      console.error("OTP Error", e);
+      toast.error("OTP Failed. Try again.");
     }
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-2">Login with Mobile</h2>
+    <div className="login-container">
+      <h2 className="login-title">Login with Mobile</h2>
       <input
+        type="tel"
         value={number}
         onChange={(e) => setNumber(e.target.value)}
         placeholder="Enter mobile number"
-        className="border p-2 w-full rounded"
+        className="login-input"
       />
-      <button
-        onClick={sendOtp}
-        className="bg-black text-white w-full py-2 mt-3 rounded"
-      >
+      <button onClick={sendOtp} className="login-button">
         Send OTP
       </button>
       <div id="recaptcha-container"></div>

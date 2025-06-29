@@ -39,7 +39,6 @@ export const products: Product[] = [
     images: [
       "/images/products/forHim1.jpg",
       "/images/products/forHim2.jpg",
-      // "/images/products/forHim3.jpg",
       "/images/products/forHim4.jpg",
     ],
     color: "herb-turmeric",
@@ -167,8 +166,6 @@ export const products: Product[] = [
       "Mix with water to form a paste. Apply evenly on the body while bathing.Gently massage for 2–3 minutes and rinse off with water.You can gradually replace your regular body wash or face wash with this natural alternative.",
     images: [
       "/images/products/babyGirl1.jpg",
-      // "/images/products/babyGirl2.jpg",
-      // "/images/products/babyGirl3.jpg",
       "/images/products/babyGirl4.jpg",
     ],
     color: "herb-pink",
