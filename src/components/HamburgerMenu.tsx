@@ -1,8 +1,9 @@
+
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
-import { FaBars, FaTimes, FaWhatsapp, FaSearch } from "react-icons/fa";
+import { FaBars, FaTimes, FaWhatsapp, FaSearch, FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import SearchModal from "./SearchModal";
 import "@/styles/components/hamburger-menu.css";
 
@@ -40,9 +41,6 @@ const HamburgerMenu = () => {
 
         {/* Desktop Navigation */}
         <nav className="desktop-nav">
-          <button onClick={handleSearchClick} className="nav-item">
-            <FaSearch /> Search
-          </button>
           <Link href="/products" className="nav-item">
             Products
           </Link>
@@ -52,13 +50,38 @@ const HamburgerMenu = () => {
           <Link href="/contact" className="nav-item">
             Contact
           </Link>
-          <button onClick={handleWhatsAppClick} className="whatsapp-button">
-            <FaWhatsapp /> Order on WhatsApp
-          </button>
+          
+          <div className="nav-icons">
+            <button 
+              onClick={handleSearchClick} 
+              className="nav-icon-button"
+              aria-label="Search products"
+            >
+              <FaSearch />
+            </button>
+            <Link href="/cart" className="nav-icon-button" aria-label="Shopping cart">
+              <FaShoppingCart />
+            </Link>
+            <Link href="/login" className="nav-icon-button" aria-label="User profile">
+              <FaUserCircle />
+            </Link>
+            <button 
+              onClick={handleWhatsAppClick} 
+              className="whatsapp-button"
+              aria-label="Order on WhatsApp"
+            >
+              <FaWhatsapp /> Order
+            </button>
+          </div>
         </nav>
 
         {/* Mobile Hamburger Button */}
-        <button className="hamburger-button" onClick={toggleMenu}>
+        <button 
+          className="hamburger-button" 
+          onClick={toggleMenu}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
+        >
           {isOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
@@ -67,26 +90,54 @@ const HamburgerMenu = () => {
       <div
         className={`menu-overlay ${isOpen ? "active" : ""}`}
         onClick={closeMenu}
+        role="presentation"
       >
-        <nav className={`menu-content ${isOpen ? "active" : ""}`}>
-          <button onClick={handleSearchClick} className="menu-item">
-            <FaSearch /> Search
-          </button>
-          <Link href="/products" className="menu-item" onClick={closeMenu}>
-            Products
-          </Link>
-          <Link href="/about" className="menu-item" onClick={closeMenu}>
-            About
-          </Link>
-          <Link href="/contact" className="menu-item" onClick={closeMenu}>
-            Contact
-          </Link>
-          <button
-            onClick={handleWhatsAppClick}
-            className="menu-whatsapp-button"
-          >
-            <FaWhatsapp /> Order on WhatsApp
-          </button>
+        <nav 
+          className={`menu-content ${isOpen ? "active" : ""}`}
+          role="navigation"
+          aria-label="Mobile navigation menu"
+        >
+          <div className="menu-header">
+            <h2 className="menu-title">Menu</h2>
+            <button 
+              onClick={closeMenu} 
+              className="close-button"
+              aria-label="Close menu"
+            >
+              <FaTimes />
+            </button>
+          </div>
+
+          <div className="menu-links">
+            <button onClick={handleSearchClick} className="menu-item">
+              <FaSearch /> Search
+            </button>
+            <Link href="/products" className="menu-item" onClick={closeMenu}>
+              Products
+            </Link>
+            <Link href="/about" className="menu-item" onClick={closeMenu}>
+              About
+            </Link>
+            <Link href="/contact" className="menu-item" onClick={closeMenu}>
+              Contact
+            </Link>
+            <Link href="/cart" className="menu-item" onClick={closeMenu}>
+              <FaShoppingCart /> Cart
+            </Link>
+            <Link href="/login" className="menu-item" onClick={closeMenu}>
+              <FaUserCircle /> Profile
+            </Link>
+          </div>
+
+          <div className="menu-footer">
+            <button
+              onClick={handleWhatsAppClick}
+              className="menu-whatsapp-button"
+              aria-label="Order on WhatsApp"
+            >
+              <FaWhatsapp /> Order on WhatsApp
+            </button>
+          </div>
         </nav>
       </div>
 
