@@ -4,6 +4,7 @@ import "../styles/theme.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import HamburgerMenu from "@/components/HamburgerMenu";
+import { Toaster } from "react-hot-toast"; // 👈 required for toast to work
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -52,6 +53,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <HamburgerMenu />
         {children}
+        <Toaster position="top-center" /> {/* 👈 Enables toast globally */}
       </body>
     </html>
   );

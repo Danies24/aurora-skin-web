@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { IoSearch } from "react-icons/io5";
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery("");
     }
   };

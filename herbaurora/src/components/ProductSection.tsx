@@ -19,14 +19,16 @@ const ProductSection = () => {
   };
 
   const handleProductClick = (productId: string) => {
-    router.push(`/product/${productId}`);
+    router.push(`/products/${productId}`);
   };
 
   return (
     <section className="product-section">
       <div className="product-container">
-        <h2 className="product-title">Monsoon Essentials</h2>
-        <p className="product-subtitle">Everything You Need for Monsoon</p>
+        <h2 className="product-title">Best-Selling Herbal Bath Powders 🌿</h2>
+        <p className="product-subtitle">
+          Loved by 1000+ families for pure, gentle skincare
+        </p>
 
         <div className="product-grid">
           {products.map((product) => (
@@ -35,7 +37,6 @@ const ProductSection = () => {
               className="product-card"
               onClick={() => handleProductClick(product.id)}
             >
-              <span className="product-ribbon">BUY2@699</span>
               <div className="product-image-container">
                 <Image
                   src={product.images[0]}
