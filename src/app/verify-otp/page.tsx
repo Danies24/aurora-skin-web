@@ -1,10 +1,11 @@
+
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import "@/styles/components/verifyOtp.css"; // 👈 Import custom CSS
+import "@/styles/components/verifyOtp.css";
 
 export default function VerifyPage() {
   const [otp, setOtp] = useState("");
@@ -24,17 +25,43 @@ export default function VerifyPage() {
   };
 
   return (
-    <div className="verify-container">
-      <h2 className="verify-title">Enter OTP</h2>
-      <input
-        value={otp}
-        onChange={(e) => setOtp(e.target.value)}
-        placeholder="Enter OTP"
-        className="verify-input"
-      />
-      <button onClick={verifyOtp} className="verify-button">
-        Verify & Login
-      </button>
+    <div className="verify-page">
+      <div className="verify-container">
+        <div className="verify-header">
+          <div className="brand-icon">🌿</div>
+          <h1 className="verify-title">Verify Your Mobile</h1>
+          <p className="verify-subtitle">
+            We've sent a 6-digit OTP to your mobile number
+          </p>
+        </div>
+        
+        <form className="verify-form" onSubmit={(e) => { e.preventDefault(); verifyOtp(); }}>
+          <div className="input-group">
+            <label htmlFor="otp" className="input-label">Enter OTP</label>
+            <input
+              id="otp"
+              type="text"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              placeholder="Enter 6-digit OTP"
+              className="verify-input"
+              maxLength={6}
+            />
+          </div>
+          
+          <button type="submit" className="verify-button">
+            <span className="button-text">Verify & Continue</span>
+            <span className="button-icon">✓</span>
+          </button>
+        </form>
+        
+        <div className="verify-footer">
+          <p className="footer-text">
+            Didn't receive OTP? 
+            <button className="resend-link">Resend OTP</button>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
