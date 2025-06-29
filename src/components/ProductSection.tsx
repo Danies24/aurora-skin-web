@@ -1,21 +1,47 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getAllProducts } from "@/constants/products";
-import { FaWhatsapp, FaStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
+import { useToast } from "@/components/ui/use-toast";
 import "@/styles/components/product.css";
 
 const ProductSection = () => {
-  const products = getAllProducts().slice(0, 4); // Limit to 4 products for desktop
+  const products = getAllProducts().slice(0, 4);
   const router = useRouter();
+  const { toast } = useToast();
 
-  const handleWhatsAppOrder = (productName: string) => {
-    const message = encodeURIComponent(
-      `Hi! I'd like to order ${productName} from Herb Aurora. Please share the details.`
+  const handleAddToCart = (product: any) => {
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      price: product.variants[0].price,
+      size: product.variants[0].size,
+      weight: product.variants[0].weight,
+      image: product.images[0],
+      quantity: 1
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existingItem = existingCart.find((item: any) => 
+      item.id === cartItem.id && item.size === cartItem.size
     );
-    window.open(`https://wa.me/+918248365737?text=${message}`, "_blank");
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      existingCart.push(cartItem);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+    
+    toast({
+      title: "Added to Cart!",
+      description: `${product.name} added to your cart.`,
+    });
   };
 
   const handleProductClick = (productId: string) => {
@@ -60,11 +86,11 @@ const ProductSection = () => {
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleWhatsAppOrder(product.name);
+                    handleAddToCart(product);
                   }}
                   className="product-button"
                 >
-                  <FaWhatsapp className="mr-2" /> Order on WhatsApp
+                  Add to Cart
                 </Button>
               </div>
             </div>

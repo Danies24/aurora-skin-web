@@ -1,0 +1,161 @@
+
+.address-section {
+  width: 100%;
+}
+
+.address-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  color: var(--herb-green);
+  margin-bottom: 1.5rem;
+}
+
+.saved-addresses {
+  margin-bottom: 1.5rem;
+}
+
+.saved-addresses-title {
+  font-size: 1.125rem;
+  color: var(--herb-green-dark);
+  margin-bottom: 1rem;
+}
+
+.address-card {
+  border: 2px solid rgba(var(--herb-green-rgb), 0.2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.address-card:hover {
+  border-color: var(--herb-green);
+}
+
+.address-card:has(.address-radio:checked) {
+  border-color: var(--herb-green);
+  background-color: rgba(var(--herb-green-rgb), 0.05);
+}
+
+.address-radio {
+  display: none;
+}
+
+.address-label {
+  cursor: pointer;
+  display: block;
+}
+
+.address-details {
+  position: relative;
+}
+
+.address-name {
+  font-weight: 600;
+  color: var(--herb-green-dark);
+  margin-bottom: 0.25rem;
+}
+
+.address-phone {
+  color: var(--herb-green-dark);
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.address-full {
+  color: var(--herb-green-dark);
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.default-badge {
+  background-color: var(--herb-green);
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.add-address-button {
+  width: 100%;
+  background: none;
+  border: 2px solid var(--herb-green);
+  color: var(--herb-green);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.add-address-button:hover {
+  background-color: var(--herb-green);
+  color: white;
+}
+
+.address-form {
+  background-color: var(--herb-cream);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--herb-green-dark);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  padding: 0.75rem;
+  border: 2px solid rgba(var(--herb-green-rgb), 0.2);
+  border-radius: 0.5rem;
+  background: white;
+  color: var(--herb-green-dark);
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--herb-green);
+}
+
+.save-address-button {
+  width: 100%;
+  background-color: var(--herb-green);
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.save-address-button:hover {
+  background-color: var(--herb-green-dark);
+}

@@ -1,0 +1,243 @@
+
+.cart-page {
+  min-height: 100vh;
+  background-color: var(--herb-cream);
+  padding: 7rem 0 2rem;
+}
+
+.cart-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.cart-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: var(--herb-green);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.empty-cart-text {
+  color: var(--herb-green-dark);
+  margin-bottom: 2rem;
+  font-size: 1.125rem;
+}
+
+.continue-shopping-button {
+  display: inline-block;
+  background-color: var(--herb-green);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.continue-shopping-button:hover {
+  background-color: var(--herb-green-dark);
+}
+
+.cart-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .cart-content {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.cart-items {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(var(--herb-green-rgb), 0.1);
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-image {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.item-image {
+  object-fit: cover;
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item-name {
+  font-weight: 600;
+  color: var(--herb-green-dark);
+  margin: 0;
+}
+
+.item-size,
+.item-weight {
+  font-size: 0.875rem;
+  color: var(--herb-green-dark);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.quantity-button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--herb-green);
+  background: white;
+  color: var(--herb-green);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.quantity-button:hover {
+  background-color: var(--herb-green);
+  color: white;
+}
+
+.quantity {
+  min-width: 30px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.cart-item-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.unit-price {
+  font-size: 0.875rem;
+  color: var(--herb-green-dark);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.total-price {
+  font-weight: 600;
+  color: var(--herb-green);
+  margin: 0;
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: rgba(220, 38, 38, 0.1);
+}
+
+.cart-summary {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+}
+
+.summary-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+  color: var(--herb-green);
+  margin-bottom: 1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  color: var(--herb-green-dark);
+}
+
+.total-row {
+  border-top: 1px solid rgba(var(--herb-green-rgb), 0.2);
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--herb-green);
+}
+
+.checkout-button {
+  width: 100%;
+  background-color: var(--herb-green);
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-button:hover {
+  background-color: var(--herb-green-dark);
+}
+
+@media (max-width: 640px) {
+  .cart-item {
+    grid-template-columns: 60px 1fr;
+    gap: 0.75rem;
+  }
+  
+  .cart-item-price {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+}

@@ -6,8 +6,8 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getProductById } from "../../../constants/products";
 import useEmblaCarousel from "embla-carousel-react";
-import { FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useToast } from "@/components/ui/use-toast";
 import "../../../styles/components/product-details.css";
 
 const ProductDetailsPage = () => {
@@ -20,6 +20,7 @@ const ProductDetailsPage = () => {
     align: "center",
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const { toast } = useToast();
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -53,12 +54,37 @@ const ProductDetailsPage = () => {
     );
   }
 
-  const handleWhatsAppOrder = () => {
-    const message = `Hi, I'm interested in ordering:\n\nProduct: ${product.name}\nSize: ${product.variants[selectedVariant].size}\nPrice: ₹${product.variants[selectedVariant].price}`;
-    const whatsappUrl = `https://wa.me/918248365737?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
+  const handleAddToCart = () => {
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      price: product.variants[selectedVariant].price,
+      size: product.variants[selectedVariant].size,
+      weight: product.variants[selectedVariant].weight,
+      image: product.images[0],
+      quantity: 1
+    };
+
+    // Get existing cart or initialize empty array
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    // Check if item already exists
+    const existingItem = existingCart.find((item: any) => 
+      item.id === cartItem.id && item.size === cartItem.size
+    );
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      existingCart.push(cartItem);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+    
+    toast({
+      title: "Added to Cart!",
+      description: `${product.name} (${product.variants[selectedVariant].size}) added to your cart.`,
+    });
   };
 
   return (
@@ -190,10 +216,9 @@ const ProductDetailsPage = () => {
               </div>
             )}
 
-            {/* Order Button */}
-            <button onClick={handleWhatsAppOrder} className="order-button">
-              <FaWhatsapp className="order-button-icon" />
-              Order on WhatsApp
+            {/* Add to Cart Button */}
+            <button onClick={handleAddToCart} className="add-to-cart-button">
+              Add to Cart
             </button>
           </div>
         </div>

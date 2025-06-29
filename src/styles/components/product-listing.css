@@ -87,30 +87,6 @@
   margin-bottom: 1rem;
 }
 
-.order-button {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background-color: var(--herb-green);
-  color: white;
-  border: none;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.order-button:hover {
-  background-color: var(--herb-green-dark);
-}
-
-.order-button-icon {
-  font-size: 1.25rem;
-}
-
 .no-results {
   text-align: center;
   padding: 3rem 1rem;
@@ -179,12 +155,38 @@
     margin-bottom: 0.75rem;
   }
 
-  .order-button {
+  .add-to-cart-button {
     padding: 0.5rem;
     font-size: 0.5rem;
   }
+}
 
-  .order-button-icon {
+.add-to-cart-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--herb-green);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-to-cart-button:hover {
+  background-color: var(--herb-green-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 640px) {
+  .add-to-cart-button {
+    padding: 0.5rem;
     font-size: 0.5rem;
   }
 }

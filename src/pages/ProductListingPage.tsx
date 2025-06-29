@@ -1,5 +1,3 @@
-// ✅ Paste this inside your `ProductListingPage.tsx` or equivalent
-// Add/Update your CSS after this file
 
 "use client";
 
@@ -7,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { getAllProducts } from "@/constants/products";
-import { FaWhatsapp } from "react-icons/fa";
+import { useToast } from "@/components/ui/use-toast";
 import "@/styles/components/product-listing.css";
 
 const ProductListingPage = () => {
@@ -15,6 +13,7 @@ const ProductListingPage = () => {
   const router = useRouter();
   const searchQuery = searchParams?.get("search") || "";
   const [products, setProducts] = useState(getAllProducts());
+  const { toast } = useToast();
 
   useEffect(() => {
     if (searchQuery) {
@@ -26,17 +25,39 @@ const ProductListingPage = () => {
       setProducts(filtered);
     } else {
       setProducts(getAllProducts());
-      console.log("hey");
     }
   }, [searchQuery]);
 
-  const handleWhatsAppClick = (e: React.MouseEvent, productName: string) => {
-    e.stopPropagation(); // Prevent card click when clicking WhatsApp button
-    const message = `Hi, I'm interested in ${productName}. Can you provide more information?`;
-    window.open(
-      `https://wa.me/+918248365737?text=${encodeURIComponent(message)}`,
-      "_blank"
+  const handleAddToCart = (e: React.MouseEvent, product: any) => {
+    e.stopPropagation();
+    
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      price: product.variants[0].price,
+      size: product.variants[0].size,
+      weight: product.variants[0].weight,
+      image: product.images[0],
+      quantity: 1
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existingItem = existingCart.find((item: any) => 
+      item.id === cartItem.id && item.size === cartItem.size
     );
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      existingCart.push(cartItem);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+    
+    toast({
+      title: "Added to Cart!",
+      description: `${product.name} added to your cart.`,
+    });
   };
 
   const handleClearFilters = () => {
@@ -94,11 +115,10 @@ const ProductListingPage = () => {
                     {product.variants[0].size} - ₹{product.variants[0].price}
                   </p>
                   <button
-                    className="order-button"
-                    onClick={(e) => handleWhatsAppClick(e, product.name)}
+                    className="add-to-cart-button"
+                    onClick={(e) => handleAddToCart(e, product)}
                   >
-                    <FaWhatsapp className="order-button-icon" /> Order on
-                    WhatsApp
+                    Add to Cart
                   </button>
                 </div>
               </div>
