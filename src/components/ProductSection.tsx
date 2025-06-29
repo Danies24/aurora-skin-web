@@ -1,20 +1,22 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { getAllProducts } from "@/constants/products";
+import { getAllProducts, Product } from "@/constants/products";
 import { FaStar } from "react-icons/fa";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuthStore } from "@/store/authStore";
+import { addToCart } from "@/lib/firebase/firebaseHelpers";
 import "@/styles/components/product.css";
 
 const ProductSection = () => {
   const products = getAllProducts().slice(0, 4);
   const router = useRouter();
   const { toast } = useToast();
+  const { userId, isLoggedIn } = useAuthStore();
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = async (product: Product) => {
     const cartItem = {
       id: product.id,
       name: product.name,
@@ -22,26 +24,50 @@ const ProductSection = () => {
       size: product.variants[0].size,
       weight: product.variants[0].weight,
       image: product.images[0],
-      quantity: 1
+      quantity: 1,
     };
 
-    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const existingItem = existingCart.find((item: any) => 
-      item.id === cartItem.id && item.size === cartItem.size
-    );
+    try {
+      if (isLoggedIn && userId) {
+        // Add to Firestore cart
+        await addToCart(userId, {
+          productId: product.id,
+          productName: product.name,
+          variant: product.variants[0].size,
+          quantity: 1,
+          price: product.variants[0].price,
+          image: product.images[0],
+          weight: product.variants[0].weight,
+        });
+      } else {
+        // Fallback to localStorage for non-logged in users
+        const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const existingItem = existingCart.find(
+          (item: typeof cartItem) =>
+            item.id === cartItem.id && item.size === cartItem.size
+        );
 
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      existingCart.push(cartItem);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          existingCart.push(cartItem);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(existingCart));
+      }
+
+      toast({
+        title: "Added to Cart!",
+        description: `${product.name} added to your cart.`,
+      });
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add item to cart. Please try again.",
+        variant: "destructive",
+      });
     }
-
-    localStorage.setItem('cart', JSON.stringify(existingCart));
-    
-    toast({
-      title: "Added to Cart!",
-      description: `${product.name} added to your cart.`,
-    });
   };
 
   const handleProductClick = (productId: string) => {

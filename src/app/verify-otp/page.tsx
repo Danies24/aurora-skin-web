@@ -4,6 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { getUserByPhone, createUser } from "@/lib/firebase/firebaseHelpers";
 import "@/styles/components/verifyotp.css";
 
 declare global {
@@ -16,18 +17,51 @@ declare global {
 
 export default function VerifyPage() {
   const [otp, setOtp] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const setLoggedIn = useAuthStore((s) => s.setLoggedIn);
+  const { setLoggedIn, setUserId, setUser, phone } = useAuthStore();
 
   const verifyOtp = async () => {
+    if (!phone) {
+      toast.error("Phone number not found. Please try logging in again.");
+      router.push("/login");
+      return;
+    }
+
+    setIsLoading(true);
     try {
       await window.confirmationResult.confirm(otp);
-      setLoggedIn(true);
-      toast.success("Login successful");
-      router.push("/");
+
+      // Check if user exists in Firestore
+      let user = await getUserByPhone(phone);
+
+      if (!user) {
+        // Create new user with basic info
+        await createUser({
+          firstName: "",
+          lastName: "",
+          phone: phone,
+          pincode: "",
+        });
+
+        // Get the created user
+        user = await getUserByPhone(phone);
+      }
+
+      if (user) {
+        setLoggedIn(true);
+        setUserId(user.id);
+        setUser(user);
+        toast.success("Login successful");
+        router.push("/");
+      } else {
+        toast.error("Failed to create user account");
+      }
     } catch (e) {
       toast.error("Invalid OTP");
       console.error(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,11 +95,14 @@ export default function VerifyPage() {
               placeholder="Enter 6-digit OTP"
               className="verify-input"
               maxLength={6}
+              disabled={isLoading}
             />
           </div>
 
-          <button type="submit" className="verify-button">
-            <span className="button-text">Verify & Continue</span>
+          <button type="submit" className="verify-button" disabled={isLoading}>
+            <span className="button-text">
+              {isLoading ? "Verifying..." : "Verify & Continue"}
+            </span>
             <span className="button-icon">✓</span>
           </button>
         </form>

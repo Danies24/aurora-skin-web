@@ -8,6 +8,8 @@ import { getProductById } from "../../../constants/products";
 import useEmblaCarousel from "embla-carousel-react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuthStore } from "@/store/authStore";
+import { addToCart } from "@/lib/firebase/firebaseHelpers";
 import "../../../styles/components/product-details.css";
 
 const ProductDetailsPage = () => {
@@ -21,6 +23,7 @@ const ProductDetailsPage = () => {
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { toast } = useToast();
+  const { userId, isLoggedIn } = useAuthStore();
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -54,7 +57,7 @@ const ProductDetailsPage = () => {
     );
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const cartItem = {
       id: product.id,
       name: product.name,
@@ -62,29 +65,50 @@ const ProductDetailsPage = () => {
       size: product.variants[selectedVariant].size,
       weight: product.variants[selectedVariant].weight,
       image: product.images[0],
-      quantity: 1
+      quantity: 1,
     };
 
-    // Get existing cart or initialize empty array
-    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
-    
-    // Check if item already exists
-    const existingItem = existingCart.find((item: any) => 
-      item.id === cartItem.id && item.size === cartItem.size
-    );
+    try {
+      if (isLoggedIn && userId) {
+        // Add to Firestore cart
+        await addToCart(userId, {
+          productId: product.id,
+          productName: product.name,
+          variant: product.variants[selectedVariant].size,
+          quantity: 1,
+          price: product.variants[selectedVariant].price,
+          image: product.images[0],
+          weight: product.variants[selectedVariant].weight,
+        });
+      } else {
+        // Fallback to localStorage for non-logged in users
+        const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const existingItem = existingCart.find(
+          (item: typeof cartItem) =>
+            item.id === cartItem.id && item.size === cartItem.size
+        );
 
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      existingCart.push(cartItem);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          existingCart.push(cartItem);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(existingCart));
+      }
+
+      toast({
+        title: "Added to Cart!",
+        description: `${product.name} (${product.variants[selectedVariant].size}) added to your cart.`,
+      });
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add item to cart. Please try again.",
+        variant: "destructive",
+      });
     }
-
-    localStorage.setItem('cart', JSON.stringify(existingCart));
-    
-    toast({
-      title: "Added to Cart!",
-      description: `${product.name} (${product.variants[selectedVariant].size}) added to your cart.`,
-    });
   };
 
   return (
