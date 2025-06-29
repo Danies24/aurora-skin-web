@@ -1,11 +1,18 @@
-
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import "@/styles/components/verifyOtp.css";
+import "@/styles/components/verifyotp.css";
+
+declare global {
+  interface Window {
+    confirmationResult: {
+      confirm: (code: string) => Promise<unknown>;
+    };
+  }
+}
 
 export default function VerifyPage() {
   const [otp, setOtp] = useState("");
@@ -14,7 +21,7 @@ export default function VerifyPage() {
 
   const verifyOtp = async () => {
     try {
-      await (window as any).confirmationResult.confirm(otp);
+      await window.confirmationResult.confirm(otp);
       setLoggedIn(true);
       toast.success("Login successful");
       router.push("/");
@@ -31,13 +38,21 @@ export default function VerifyPage() {
           <div className="brand-icon">🌿</div>
           <h1 className="verify-title">Verify Your Mobile</h1>
           <p className="verify-subtitle">
-            We've sent a 6-digit OTP to your mobile number
+            We&apos;ve sent a 6-digit OTP to your mobile number
           </p>
         </div>
-        
-        <form className="verify-form" onSubmit={(e) => { e.preventDefault(); verifyOtp(); }}>
+
+        <form
+          className="verify-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            verifyOtp();
+          }}
+        >
           <div className="input-group">
-            <label htmlFor="otp" className="input-label">Enter OTP</label>
+            <label htmlFor="otp" className="input-label">
+              Enter OTP
+            </label>
             <input
               id="otp"
               type="text"
@@ -48,16 +63,16 @@ export default function VerifyPage() {
               maxLength={6}
             />
           </div>
-          
+
           <button type="submit" className="verify-button">
             <span className="button-text">Verify & Continue</span>
             <span className="button-icon">✓</span>
           </button>
         </form>
-        
+
         <div className="verify-footer">
           <p className="footer-text">
-            Didn't receive OTP? 
+            Didn&apos;t receive OTP?
             <button className="resend-link">Resend OTP</button>
           </p>
         </div>
