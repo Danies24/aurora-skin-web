@@ -1,15 +1,19 @@
+
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp, FaUser } from "react-icons/fa";
 import { IoMenu, IoClose } from "react-icons/io5";
 import SearchBar from "./SearchBar";
+import CartIcon from "./CartIcon";
+import { useAuthStore } from "@/store/authStore";
 import "@/styles/components/navigation.css";
 
 const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { isLoggedIn } = useAuthStore();
 
   // Close menu when route changes
   useEffect(() => {
@@ -50,6 +54,7 @@ const Navigation: React.FC = () => {
           {/* Mobile menu button */}
           <div className="navigation-mobile">
             <SearchBar />
+            <CartIcon />
             <button onClick={toggleMenu} className="menu-button">
               {isMenuOpen ? <IoClose /> : <IoMenu />}
             </button>
@@ -81,10 +86,17 @@ const Navigation: React.FC = () => {
             >
               Contact
             </Link>
-            <button onClick={handleWhatsAppClick} className="whatsapp-button">
-              <FaWhatsapp />
-              Contact Us
-            </button>
+            
+            <div className="nav-actions">
+              <CartIcon />
+              <Link href={isLoggedIn ? "/profile" : "/login"} className="profile-link">
+                <FaUser />
+              </Link>
+              <button onClick={handleWhatsAppClick} className="whatsapp-button">
+                <FaWhatsapp />
+                Contact Us
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -111,6 +123,13 @@ const Navigation: React.FC = () => {
             onClick={closeMenu}
           >
             Contact
+          </Link>
+          <Link
+            href={isLoggedIn ? "/profile" : "/login"}
+            className="mobile-menu-link"
+            onClick={closeMenu}
+          >
+            {isLoggedIn ? "Profile" : "Login"}
           </Link>
           <button
             onClick={() => {

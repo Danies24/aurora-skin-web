@@ -1,3 +1,4 @@
+
 /* Reset default margins and padding */
 * {
   margin: 0;
@@ -162,18 +163,29 @@
   color: white;
   padding: 0.5rem; /* reduced */
   border-radius: 0.5rem;
-  transition: font-size 0.3s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   font-size: 0.875rem;
   cursor: pointer;
+  border: none;
 }
 
 .product-button:hover {
   font-size: 0.975rem;
   font-weight: bold;
+  background-color: var(--herb-green-dark);
+}
+
+.product-button.in-cart {
+  background-color: var(--herb-green-dark);
+  font-weight: 600;
+}
+
+.product-button.in-cart:hover {
+  background-color: #1a331d;
 }
 
 /* View More Button */

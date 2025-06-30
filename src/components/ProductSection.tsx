@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -6,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/constants/products";
 import { FaStar } from "react-icons/fa";
 import { useAuthStore } from "@/store/authStore";
+import { useCartStore } from "@/store/cartStore";
 import { addToCart } from "@/lib/firebase/firebaseHelpers";
 import "@/styles/components/product.css";
 import toast from "react-hot-toast";
@@ -19,6 +21,11 @@ type ProductSectionProps = {
 const ProductSection = ({ title, subTitle, products }: ProductSectionProps) => {
   const router = useRouter();
   const { userId, isLoggedIn } = useAuthStore();
+  const { items: cartItems, addItem } = useCartStore();
+
+  const isInCart = (productId: string, size: string) => {
+    return cartItems.some(item => item.id === productId && item.size === size);
+  };
 
   const handleAddToCart = async (product: Product) => {
     const cartItem = {
@@ -43,28 +50,19 @@ const ProductSection = ({ title, subTitle, products }: ProductSectionProps) => {
           image: product.images[0],
           weight: product.variants[0].weight,
         });
-      } else {
-        // Fallback to localStorage for non-logged in users
-        const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-        const existingItem = existingCart.find(
-          (item: typeof cartItem) =>
-            item.id === cartItem.id && item.size === cartItem.size
-        );
-
-        if (existingItem) {
-          existingItem.quantity += 1;
-        } else {
-          existingCart.push(cartItem);
-        }
-
-        localStorage.setItem("cart", JSON.stringify(existingCart));
       }
 
-      toast.success(`Added to your cart !!`);
+      // Add to local state
+      addItem(cartItem);
+      toast.success(`Added to your cart!`);
     } catch (error) {
       console.error("Error adding to cart:", error);
       toast.error("Failed to add item to cart. Please try again.");
     }
+  };
+
+  const handleGoToBag = () => {
+    router.push("/cart");
   };
 
   const handleProductClick = (productId: string) => {
@@ -78,42 +76,50 @@ const ProductSection = ({ title, subTitle, products }: ProductSectionProps) => {
         <p className="product-subtitle">{subTitle}</p>
 
         <div className="product-grid">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="product-card"
-              onClick={() => handleProductClick(product.id)}
-            >
-              <div className="product-image-container">
-                <Image
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="product-image"
-                  width={400}
-                  height={400}
-                />
-              </div>
-              <div className="product-content">
-                <p className="product-rank">
-                  #{product.rank} IN {product.category.toUpperCase()}
-                </p>
-                <h3 className="product-name">{product.name}</h3>
-                <p className="product-benefit">{product.benefit}</p>
-                <p className="product-variant">{product.variants[0].size}</p>
-                <p className="product-price">₹{product.variants[0].price}</p>
+          {products.map((product) => {
+            const inCart = isInCart(product.id, product.variants[0].size);
+            
+            return (
+              <div
+                key={product.id}
+                className="product-card"
+                onClick={() => handleProductClick(product.id)}
+              >
+                <div className="product-image-container">
+                  <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="product-image"
+                    width={400}
+                    height={400}
+                  />
+                </div>
+                <div className="product-content">
+                  <p className="product-rank">
+                    #{product.rank} IN {product.category.toUpperCase()}
+                  </p>
+                  <h3 className="product-name">{product.name}</h3>
+                  <p className="product-benefit">{product.benefit}</p>
+                  <div className="product-reviews">
+                    <FaStar className="star-icon" />
+                    <span>4.8 (120+ reviews)</span>
+                  </div>
+                  <p className="product-variant">{product.variants[0].size}</p>
+                  <p className="product-price">₹{product.variants[0].price}</p>
 
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAddToCart(product);
-                  }}
-                  className="product-button"
-                >
-                  Add to Cart
-                </Button>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      inCart ? handleGoToBag() : handleAddToCart(product);
+                    }}
+                    className={`product-button ${inCart ? 'in-cart' : ''}`}
+                  >
+                    {inCart ? "Go to Bag" : "Add to Cart"}
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

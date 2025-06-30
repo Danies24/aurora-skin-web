@@ -1,3 +1,4 @@
+
 .navigation {
   position: fixed;
   top: 0;
@@ -92,6 +93,30 @@
 
 .nav-link.active {
   font-weight: 600;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 1rem;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(var(--herb-green-rgb), 0.2);
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  color: var(--herb-green-dark);
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+.profile-link:hover {
+  color: var(--herb-green);
+  background-color: rgba(var(--herb-green-rgb), 0.1);
 }
 
 .whatsapp-button {
