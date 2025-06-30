@@ -92,17 +92,16 @@
 .product-image-container {
   position: relative;
   width: 100%;
-  padding-top: 90%;
-  background-color: black;
+  padding-top: 133.33%;
 }
 
 .product-image {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 160%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .product-content {
@@ -118,7 +117,7 @@
 
 .product-name {
   font-family: var(--font-herbal);
-  font-size: 1rem; /* reduced from 1.25rem */
+  font-size: 0.9rem; /* reduced from 1.25rem */
   color: var(--herb-green-dark);
   margin-bottom: 0.5rem;
 }
@@ -163,16 +162,18 @@
   color: white;
   padding: 0.5rem; /* reduced */
   border-radius: 0.5rem;
-  transition: background-color 0.3s ease;
+  transition: font-size 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   font-size: 0.875rem;
+  cursor: pointer;
 }
 
 .product-button:hover {
-  background-color: var(--herb-green-dark);
+  font-size: 0.975rem;
+  font-weight: bold;
 }
 
 /* View More Button */

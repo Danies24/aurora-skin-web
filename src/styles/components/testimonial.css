@@ -68,6 +68,7 @@
   color: rgba(var(--herb-green-dark-rgb), 0.8);
   margin-bottom: 1.5rem;
   line-height: 1.7;
+  padding: 0 5%;
 }
 
 .testimonial-author {

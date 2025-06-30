@@ -1,19 +1,27 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { getAllProducts } from "@/constants/products";
-import { useToast } from "@/components/ui/use-toast";
+import { getAllProducts, Product } from "@/constants/products";
+import toast from "react-hot-toast";
 import "@/styles/components/product-listing.css";
+
+type CartItem = {
+  id: string;
+  name: string;
+  price: number;
+  size: string;
+  weight: string;
+  image: string;
+  quantity: number;
+};
 
 const ProductListingPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchQuery = searchParams?.get("search") || "";
   const [products, setProducts] = useState(getAllProducts());
-  const { toast } = useToast();
 
   useEffect(() => {
     if (searchQuery) {
@@ -28,22 +36,24 @@ const ProductListingPage = () => {
     }
   }, [searchQuery]);
 
-  const handleAddToCart = (e: React.MouseEvent, product: any) => {
+  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
     e.stopPropagation();
-    
-    const cartItem = {
+
+    const cartItem: CartItem = {
       id: product.id,
       name: product.name,
       price: product.variants[0].price,
       size: product.variants[0].size,
       weight: product.variants[0].weight,
       image: product.images[0],
-      quantity: 1
+      quantity: 1,
     };
 
-    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const existingItem = existingCart.find((item: any) => 
-      item.id === cartItem.id && item.size === cartItem.size
+    const existingCart: CartItem[] = JSON.parse(
+      localStorage.getItem("cart") || "[]"
+    );
+    const existingItem = existingCart.find(
+      (item) => item.id === cartItem.id && item.size === cartItem.size
     );
 
     if (existingItem) {
@@ -52,12 +62,9 @@ const ProductListingPage = () => {
       existingCart.push(cartItem);
     }
 
-    localStorage.setItem('cart', JSON.stringify(existingCart));
-    
-    toast({
-      title: "Added to Cart!",
-      description: `${product.name} added to your cart.`,
-    });
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+
+    toast.success(`${product.name} added to your cart.`);
   };
 
   const handleClearFilters = () => {

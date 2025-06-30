@@ -10,33 +10,33 @@ const TestimonialSection = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Priya Sharma",
+      name: "Nisha (Ettaiyapuram)",
       rating: 5,
-      text: "My skin has never looked better! The bridal glow powder gave me the perfect radiance for my wedding day. Thank you Herb Aurora!",
+      text: "Hi Herb Aurora 😇 unagaloda herbal bathing powder super ah irunthuchu face um nalla soft and clean ah aagiruchu. Ennoda boy baby kum use pannaen, soft ah glowing ah skin change aagiruchu. Really love this product 🫂",
     },
     {
       id: 2,
-      name: "Raj Kumar",
+      name: "Jeeva (Sattur)",
       rating: 5,
-      text: "Amazing tan removal powder! After months of sun exposure, this brought back my original skin tone naturally. Highly recommended!",
+      text: "Hi Herb Aurora bro,  unga product first purchase pandra apa romba doubt iruthuchu... result tharuma nu... but nejama face avlo glow ahgirchu within a week. I can feel changes romba soft ah iruku kandipa re purchase panuven 👍👍👍",
     },
     {
       id: 3,
-      name: "Meera Devi",
+      name: "Karthika (Thanjavur)",
       rating: 5,
-      text: "I've been using the baby powder for my 6-month-old. It's so gentle and keeps her skin soft and rash-free. Pure and natural!",
+      text: "Hi pa I got the bath powder and it works really well. I’m really happy with it. Thanks for the free shipping on my first order too! I’ll definitely be ordering more soon 😊. Appreciate the quick delivery and smooth experience!",
     },
     {
       id: 4,
-      name: "Anita Lakshmi",
+      name: "Prasana (Coimbatore)",
       rating: 5,
-      text: "Traditional formulas that actually work! My grandmother would be proud. The turmeric glow is exactly what I was looking for.",
+      text: "Herb Aurora bathing powder really good! Removes black spots within a week ,brighten and softens my skin. Really I like these products 😍",
     },
     {
       id: 5,
-      name: "Suresh Babu",
+      name: "Vada malar (Coimbatore)",
       rating: 5,
-      text: "Chemical-free and effective. My wife and I both use different variants. The quality is outstanding and delivery is prompt.",
+      text: "Product nalla irunthuchi pa.. Black spot la pothu konjam konjam ah and gud product pa. Thank you so much🤎🤩",
     },
   ];
 
@@ -90,14 +90,14 @@ const TestimonialSection = () => {
             onClick={prevTestimonial}
             className="testimonial-nav testimonial-prev"
           >
-            <ChevronLeft />
+            <ChevronLeft size={30} />
           </Button>
 
           <Button
             onClick={nextTestimonial}
             className="testimonial-nav testimonial-next"
           >
-            <ChevronRight />
+            <ChevronRight size={30} />
           </Button>
         </div>
 

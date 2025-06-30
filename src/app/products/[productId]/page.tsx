@@ -7,10 +7,10 @@ import Link from "next/link";
 import { getProductById } from "../../../constants/products";
 import useEmblaCarousel from "embla-carousel-react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useToast } from "@/components/ui/use-toast";
 import { useAuthStore } from "@/store/authStore";
 import { addToCart } from "@/lib/firebase/firebaseHelpers";
 import "../../../styles/components/product-details.css";
+import toast from "react-hot-toast";
 
 const ProductDetailsPage = () => {
   const params = useParams();
@@ -22,7 +22,6 @@ const ProductDetailsPage = () => {
     align: "center",
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { toast } = useToast();
   const { userId, isLoggedIn } = useAuthStore();
 
   const scrollPrev = useCallback(() => {
@@ -97,17 +96,10 @@ const ProductDetailsPage = () => {
         localStorage.setItem("cart", JSON.stringify(existingCart));
       }
 
-      toast({
-        title: "Added to Cart!",
-        description: `${product.name} (${product.variants[selectedVariant].size}) added to your cart.`,
-      });
+      toast.success(`Added to your cart !!`);
     } catch (error) {
       console.error("Error adding to cart:", error);
-      toast({
-        title: "Error",
-        description: "Failed to add item to cart. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to add item to cart. Please try again.");
     }
   };
 

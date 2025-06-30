@@ -6,14 +6,26 @@ import InstagramSection from "@/components/InstagramSection";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import "@/styles/components/page.css";
+import { products } from "@/constants/products";
 
 export default function Home() {
   return (
     <div className="page-container">
       <HeroSection />
-      <ProductSection />
-      <AboutSection />
+      <ProductSection
+        title={"Best-Selling Herbal Bath Powders 🌿"}
+        subTitle={"Loved by 1000+ families for pure, gentle skincare"}
+        products={products.slice(0, 4)}
+      />
       <TestimonialSection />
+      <ProductSection
+        title={"Herbal Combo Packs for Every Family 👨‍👩‍👧‍👦"}
+        subTitle={
+          "Specially curated packs for couples, kids, and complete families"
+        }
+        products={products.slice(4, 8)}
+      />
+      <AboutSection />
       <InstagramSection />
       <Footer />
       <WhatsAppFloat />

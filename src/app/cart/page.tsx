@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Trash } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/authStore";
 import {
   getCartItems,
@@ -28,7 +28,6 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const { toast } = useToast();
   const { userId, isLoggedIn } = useAuthStore();
 
   useEffect(() => {
@@ -56,18 +55,14 @@ const CartPage = () => {
         }
       } catch (error) {
         console.error("Error loading cart items:", error);
-        toast({
-          title: "Error",
-          description: "Failed to load cart items. Please try again.",
-          variant: "destructive",
-        });
+        toast.error("Failed to load cart items. Please try again.");
       } finally {
         setIsLoading(false);
       }
     };
 
     loadCartItems();
-  }, [userId, isLoggedIn, toast]);
+  }, [userId, isLoggedIn]);
 
   const updateQuantity = async (
     id: string,
@@ -113,11 +108,7 @@ const CartPage = () => {
       }
     } catch (error) {
       console.error("Error updating quantity:", error);
-      toast({
-        title: "Error",
-        description: "Failed to update quantity. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to update quantity. Please try again.");
     }
   };
 
@@ -156,17 +147,10 @@ const CartPage = () => {
         localStorage.setItem("cart", JSON.stringify(updatedCart));
       }
 
-      toast({
-        title: "Item Removed",
-        description: "Product removed from cart successfully.",
-      });
+      toast.success("Product removed from cart successfully.");
     } catch (error) {
       console.error("Error removing item:", error);
-      toast({
-        title: "Error",
-        description: "Failed to remove item. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to remove item. Please try again.");
     }
   };
 
@@ -179,10 +163,7 @@ const CartPage = () => {
 
   const proceedToCheckout = () => {
     if (cartItems.length === 0) {
-      toast({
-        title: "Cart Empty",
-        description: "Please add items to cart before checkout.",
-      });
+      toast.error("Please add items to cart before checkout.");
       return;
     }
     router.push("/checkout");

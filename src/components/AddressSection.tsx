@@ -8,7 +8,7 @@ import {
   deleteAddress,
   setDefaultAddress,
 } from "@/lib/firebase/firebaseHelpers";
-import { useToast } from "@/components/ui/use-toast";
+import toast from "react-hot-toast";
 import "@/styles/components/address.css";
 
 interface Address {
@@ -29,7 +29,6 @@ const AddressSection = () => {
   const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { userId, isLoggedIn } = useAuthStore();
-  const { toast } = useToast();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -78,18 +77,14 @@ const AddressSection = () => {
         }
       } catch (error) {
         console.error("Error loading addresses:", error);
-        toast({
-          title: "Error",
-          description: "Failed to load addresses. Please try again.",
-          variant: "destructive",
-        });
+        toast.error("Failed to load addresses. Please try again.");
       } finally {
         setIsLoading(false);
       }
     };
 
     loadAddresses();
-  }, [userId, isLoggedIn, toast]);
+  }, [userId, isLoggedIn]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -131,10 +126,7 @@ const AddressSection = () => {
         }));
         setSavedAddresses(transformedAddresses);
 
-        toast({
-          title: "Success",
-          description: "Address added successfully.",
-        });
+        toast.success("Address added successfully.");
       } else {
         // Fallback for non-logged in users
         const newAddress: Address = {
@@ -150,10 +142,7 @@ const AddressSection = () => {
         };
 
         setSavedAddresses([...savedAddresses, newAddress]);
-        toast({
-          title: "Success",
-          description: "Address added successfully.",
-        });
+        toast.success("Address added successfully.");
       }
 
       setShowForm(false);
@@ -168,11 +157,7 @@ const AddressSection = () => {
       });
     } catch (error) {
       console.error("Error adding address:", error);
-      toast({
-        title: "Error",
-        description: "Failed to add address. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to add address. Please try again.");
     }
   };
 
@@ -196,10 +181,7 @@ const AddressSection = () => {
         }));
         setSavedAddresses(transformedAddresses);
 
-        toast({
-          title: "Success",
-          description: "Default address updated.",
-        });
+        toast.success("Default address updated.");
       } else {
         // Update local state for non-logged in users
         const updatedAddresses = savedAddresses.map((addr) => ({
@@ -208,18 +190,11 @@ const AddressSection = () => {
         }));
         setSavedAddresses(updatedAddresses);
 
-        toast({
-          title: "Success",
-          description: "Default address updated.",
-        });
+        toast.success("Default address updated.");
       }
     } catch (error) {
       console.error("Error setting default address:", error);
-      toast({
-        title: "Error",
-        description: "Failed to set default address. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to set default address. Please try again.");
     }
   };
 
@@ -243,10 +218,7 @@ const AddressSection = () => {
         }));
         setSavedAddresses(transformedAddresses);
 
-        toast({
-          title: "Success",
-          description: "Address deleted successfully.",
-        });
+        toast.success("Address deleted successfully.");
       } else {
         // Update local state for non-logged in users
         const updatedAddresses = savedAddresses.filter(
@@ -254,18 +226,11 @@ const AddressSection = () => {
         );
         setSavedAddresses(updatedAddresses);
 
-        toast({
-          title: "Success",
-          description: "Address deleted successfully.",
-        });
+        toast.success("Address deleted successfully.");
       }
     } catch (error) {
       console.error("Error deleting address:", error);
-      toast({
-        title: "Error",
-        description: "Failed to delete address. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to delete address. Please try again.");
     }
   };
 

@@ -3,17 +3,21 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { getAllProducts, Product } from "@/constants/products";
+import { Product } from "@/constants/products";
 import { FaStar } from "react-icons/fa";
-import { useToast } from "@/components/ui/use-toast";
 import { useAuthStore } from "@/store/authStore";
 import { addToCart } from "@/lib/firebase/firebaseHelpers";
 import "@/styles/components/product.css";
+import toast from "react-hot-toast";
 
-const ProductSection = () => {
-  const products = getAllProducts().slice(0, 4);
+type ProductSectionProps = {
+  title: string;
+  subTitle: string;
+  products: Product[];
+};
+
+const ProductSection = ({ title, subTitle, products }: ProductSectionProps) => {
   const router = useRouter();
-  const { toast } = useToast();
   const { userId, isLoggedIn } = useAuthStore();
 
   const handleAddToCart = async (product: Product) => {
@@ -56,17 +60,10 @@ const ProductSection = () => {
         localStorage.setItem("cart", JSON.stringify(existingCart));
       }
 
-      toast({
-        title: "Added to Cart!",
-        description: `${product.name} added to your cart.`,
-      });
+      toast.success(`Added to your cart !!`);
     } catch (error) {
       console.error("Error adding to cart:", error);
-      toast({
-        title: "Error",
-        description: "Failed to add item to cart. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to add item to cart. Please try again.");
     }
   };
 
@@ -77,10 +74,8 @@ const ProductSection = () => {
   return (
     <section className="product-section">
       <div className="product-container">
-        <h2 className="product-title">Best-Selling Herbal Bath Powders 🌿</h2>
-        <p className="product-subtitle">
-          Loved by 1000+ families for pure, gentle skincare
-        </p>
+        <h2 className="product-title">{title}</h2>
+        <p className="product-subtitle">{subTitle}</p>
 
         <div className="product-grid">
           {products.map((product) => (
@@ -93,8 +88,9 @@ const ProductSection = () => {
                 <Image
                   src={product.images[0]}
                   alt={product.name}
-                  fill
                   className="product-image"
+                  width={400}
+                  height={400}
                 />
               </div>
               <div className="product-content">
@@ -103,9 +99,6 @@ const ProductSection = () => {
                 </p>
                 <h3 className="product-name">{product.name}</h3>
                 <p className="product-benefit">{product.benefit}</p>
-                <div className="product-reviews">
-                  <FaStar className="star-icon" /> {product.rating} reviews
-                </div>
                 <p className="product-variant">{product.variants[0].size}</p>
                 <p className="product-price">₹{product.variants[0].price}</p>
 
