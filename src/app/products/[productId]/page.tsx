@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { getProductById } from "../../../constants/products";
 import useEmblaCarousel from "embla-carousel-react";
@@ -11,6 +11,18 @@ import { useAuthStore } from "@/store/authStore";
 import { addToCart } from "@/lib/firebase/firebaseHelpers";
 import "../../../styles/components/product-details.css";
 import toast from "react-hot-toast";
+import { useCartStore } from "@/store/cartStore";
+
+// Define CartItem type for localStorage
+type LocalCartItem = {
+  id: string;
+  name: string;
+  price: number;
+  size: string;
+  weight: string;
+  image: string;
+  quantity: number;
+};
 
 const ProductDetailsPage = () => {
   const params = useParams();
@@ -23,6 +35,8 @@ const ProductDetailsPage = () => {
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { userId, isLoggedIn } = useAuthStore();
+  const router = useRouter();
+  const { items: cartItems, addItem } = useCartStore();
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -56,7 +70,23 @@ const ProductDetailsPage = () => {
     );
   }
 
-  const handleAddToCart = async () => {
+  // Track if this variant is in the cart
+  const isInCart = cartItems.some(
+    (item) =>
+      item.id === product.id &&
+      item.size === product.variants[selectedVariant].size
+  );
+
+  const handleCartButtonClick = async () => {
+    if (!isLoggedIn) {
+      router.push("/login");
+      return;
+    }
+    if (isInCart) {
+      router.push("/cart");
+      return;
+    }
+    // Add to cart logic
     const cartItem = {
       id: product.id,
       name: product.name,
@@ -66,10 +96,8 @@ const ProductDetailsPage = () => {
       image: product.images[0],
       quantity: 1,
     };
-
     try {
       if (isLoggedIn && userId) {
-        // Add to Firestore cart
         await addToCart(userId, {
           productId: product.id,
           productName: product.name,
@@ -81,21 +109,21 @@ const ProductDetailsPage = () => {
         });
       } else {
         // Fallback to localStorage for non-logged in users
-        const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-        const existingItem = existingCart.find(
-          (item: typeof cartItem) =>
-            item.id === cartItem.id && item.size === cartItem.size
+        const existingCart: LocalCartItem[] = JSON.parse(
+          localStorage.getItem("cart") || "[]"
         );
-
+        const existingItem = existingCart.find(
+          (item) => item.id === cartItem.id && item.size === cartItem.size
+        );
         if (existingItem) {
-          existingItem.quantity += 1;
+          // Already in cart, do nothing
+          return;
         } else {
           existingCart.push(cartItem);
         }
-
         localStorage.setItem("cart", JSON.stringify(existingCart));
       }
-
+      addItem(cartItem); // Update Zustand for UI
       toast.success(`Added to your cart !!`);
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -147,7 +175,12 @@ const ProductDetailsPage = () => {
 
             {/* Price Tag */}
             <div className="price-tag">
-              <span className="price-tag-text">
+              {product.variants[selectedVariant].strikedPrice && (
+                <span className="striked-price">
+                  ₹{product.variants[selectedVariant].strikedPrice}
+                </span>
+              )}
+              <span className="discounted-price">
                 ₹{product.variants[selectedVariant].price}
               </span>
             </div>
@@ -233,8 +266,16 @@ const ProductDetailsPage = () => {
             )}
 
             {/* Add to Cart Button */}
-            <button onClick={handleAddToCart} className="add-to-cart-button">
-              Add to Cart
+            <button
+              onClick={handleCartButtonClick}
+              className={
+                isInCart
+                  ? "add-to-cart-button go-to-bag-button"
+                  : "add-to-cart-button"
+              }
+              disabled={isInCart}
+            >
+              {isInCart ? "Go to Bag" : "Add to Cart"}
             </button>
           </div>
         </div>

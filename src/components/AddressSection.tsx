@@ -10,6 +10,7 @@ import {
 } from "@/lib/firebase/firebaseHelpers";
 import toast from "react-hot-toast";
 import "@/styles/components/address.css";
+import { useRouter } from "next/navigation";
 
 interface Address {
   id: string;
@@ -29,6 +30,7 @@ const AddressSection = () => {
   const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { userId, isLoggedIn } = useAuthStore();
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -127,6 +129,7 @@ const AddressSection = () => {
         setSavedAddresses(transformedAddresses);
 
         toast.success("Address added successfully.");
+        router.push("/checkout/payment");
       } else {
         // Fallback for non-logged in users
         const newAddress: Address = {

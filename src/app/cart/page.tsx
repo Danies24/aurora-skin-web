@@ -147,7 +147,7 @@ const CartPage = () => {
         localStorage.setItem("cart", JSON.stringify(updatedCart));
       }
 
-      toast.success("Product removed from cart successfully.");
+      toast.success("Removed from cart !!");
     } catch (error) {
       console.error("Error removing item:", error);
       toast.error("Failed to remove item. Please try again.");

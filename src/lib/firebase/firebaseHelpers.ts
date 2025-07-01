@@ -12,6 +12,9 @@ import {
   serverTimestamp,
   addDoc,
   Timestamp,
+  onSnapshot,
+  QuerySnapshot,
+  DocumentData,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -294,4 +297,20 @@ const updateDefaultAddresses = async (userId: string): Promise<void> => {
     console.error("Error updating default addresses:", error);
     throw error;
   }
+};
+
+// Real-time cart subscription
+export const subscribeToCartItems = (
+  userId: string,
+  callback: (items: CartItem[]) => void
+): (() => void) => {
+  const cartRef = collection(db, `users/${userId}/cartItems`);
+  const q = query(cartRef, orderBy("createdAt", "desc"));
+  return onSnapshot(q, (snapshot: QuerySnapshot<DocumentData>) => {
+    const items = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as CartItem[];
+    callback(items);
+  });
 };

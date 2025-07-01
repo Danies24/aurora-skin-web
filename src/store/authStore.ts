@@ -4,6 +4,8 @@ import { User } from "@/lib/firebase/firebaseHelpers";
 type AuthStore = {
   phone: string;
   setPhone: (p: string) => void;
+  name: string;
+  setName: (n: string) => void;
   isLoggedIn: boolean;
   setLoggedIn: (v: boolean) => void;
   userId: string | null;
@@ -15,6 +17,8 @@ type AuthStore = {
 export const useAuthStore = create<AuthStore>((set) => ({
   phone: "",
   setPhone: (p) => set({ phone: p }),
+  name: "",
+  setName: (n) => set({ name: n }),
   isLoggedIn: false,
   setLoggedIn: (v) => set({ isLoggedIn: v }),
   userId: null,

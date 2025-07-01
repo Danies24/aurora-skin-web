@@ -2,6 +2,7 @@ export interface ProductVariant {
   size: string;
   price: number;
   weight: string;
+  strikedPrice?: number;
 }
 
 export interface Product {
@@ -22,6 +23,7 @@ export interface Product {
   rank: number;
   category: string;
   rating: number;
+  strikedPrice?: number;
 }
 
 export const products: Product[] = [
@@ -52,6 +54,7 @@ export const products: Product[] = [
       {
         size: "100g",
         price: 159,
+        strikedPrice: 199,
         weight: "100 grams",
       },
     ],
@@ -90,6 +93,7 @@ export const products: Product[] = [
       {
         size: "100g",
         price: 159,
+        strikedPrice: 199,
         weight: "100 grams",
       },
     ],
@@ -123,6 +127,7 @@ export const products: Product[] = [
       {
         size: "100g",
         price: 179,
+        strikedPrice: 219,
         weight: "100 grams",
       },
     ],
@@ -159,6 +164,7 @@ export const products: Product[] = [
       {
         size: "100g",
         price: 179,
+        strikedPrice: 219,
         weight: "100 grams",
       },
     ],
@@ -197,6 +203,7 @@ export const products: Product[] = [
       {
         size: "Combo Pack",
         price: 499,
+        strikedPrice: 599,
         weight: "300 grams (3×100g)",
       },
     ],
@@ -235,6 +242,7 @@ export const products: Product[] = [
       {
         size: "Combo Pack",
         price: 499,
+        strikedPrice: 599,
         weight: "300 grams (3×100g)",
       },
     ],
@@ -272,6 +280,7 @@ export const products: Product[] = [
       {
         size: "Combo Pack",
         price: 349,
+        strikedPrice: 399,
         weight: "200 grams (2×100g)",
       },
     ],
@@ -311,6 +320,7 @@ export const products: Product[] = [
       {
         size: "Combo Pack",
         price: 699,
+        strikedPrice: 799,
         weight: "400 grams (4×100g)",
       },
     ],

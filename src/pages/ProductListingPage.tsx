@@ -3,19 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { getAllProducts, Product } from "@/constants/products";
-import toast from "react-hot-toast";
+import { getAllProducts } from "@/constants/products";
 import "@/styles/components/product-listing.css";
-
-type CartItem = {
-  id: string;
-  name: string;
-  price: number;
-  size: string;
-  weight: string;
-  image: string;
-  quantity: number;
-};
 
 const ProductListingPage = () => {
   const searchParams = useSearchParams();
@@ -35,37 +24,6 @@ const ProductListingPage = () => {
       setProducts(getAllProducts());
     }
   }, [searchQuery]);
-
-  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
-    e.stopPropagation();
-
-    const cartItem: CartItem = {
-      id: product.id,
-      name: product.name,
-      price: product.variants[0].price,
-      size: product.variants[0].size,
-      weight: product.variants[0].weight,
-      image: product.images[0],
-      quantity: 1,
-    };
-
-    const existingCart: CartItem[] = JSON.parse(
-      localStorage.getItem("cart") || "[]"
-    );
-    const existingItem = existingCart.find(
-      (item) => item.id === cartItem.id && item.size === cartItem.size
-    );
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      existingCart.push(cartItem);
-    }
-
-    localStorage.setItem("cart", JSON.stringify(existingCart));
-
-    toast.success(`${product.name} added to your cart.`);
-  };
 
   const handleClearFilters = () => {
     window.location.href = "/products";
@@ -117,16 +75,22 @@ const ProductListingPage = () => {
                   />
                 </div>
                 <div className="product-details">
-                  <h2 className="product-name">{product.name}</h2>
-                  <p className="product-price">
-                    {product.variants[0].size} - ₹{product.variants[0].price}
+                  <p className="product-rank">
+                    #{product.rank} IN {product.category.toUpperCase()}
                   </p>
-                  <button
-                    className="add-to-cart-button"
-                    onClick={(e) => handleAddToCart(e, product)}
-                  >
-                    Add to Cart
-                  </button>
+                  <h3 className="product-name">{product.name}</h3>
+                  <p className="product-benefit">{product.benefit}</p>
+                  <p className="product-variant">{product.variants[0].size}</p>
+                  <p className="product-price">
+                    {product.variants[0].strikedPrice && (
+                      <span className="striked-price">
+                        ₹{product.variants[0].strikedPrice}
+                      </span>
+                    )}
+                    <span className="discounted-price">
+                      ₹{product.variants[0].price}
+                    </span>
+                  </p>
                 </div>
               </div>
             ))}

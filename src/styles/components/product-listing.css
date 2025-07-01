@@ -1,5 +1,5 @@
 .product-listing-page {
-  padding: 6rem 1rem;
+  padding: 5rem 2rem;
   background-color: var(--herb-cream);
   min-height: 100vh;
 }
@@ -44,7 +44,7 @@
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -74,17 +74,49 @@
 .product-details {
   padding: 1.5rem;
 }
+.product-rank {
+  font-size: 0.75rem;
+  color: var(--herb-green);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.product-benefit {
+  color: var(--herb-green-dark);
+  opacity: 0.8;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+}
+.product-variant {
+  color: var(--herb-green-dark);
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+}
 
 .product-name {
-  font-size: 1.25rem;
+  font-size: 0.85rem;
   color: var(--herb-green-dark);
   margin-bottom: 0.5rem;
 }
 
 .product-price {
+  font-size: 0.85rem;
   color: var(--herb-green-dark);
   font-weight: 600;
   margin-bottom: 1rem;
+}
+
+.striked-price {
+  color: #aaa;
+  text-decoration: line-through;
+  font-size: 0.95em;
+  margin-right: 8px;
+}
+
+.discounted-price {
+  color: #222;
+  font-weight: bold;
+  font-size: 1.1em;
 }
 
 .no-results {
@@ -146,12 +178,12 @@
   }
 
   .product-name {
-    font-size: 0.55rem;
+    font-size: 0.45rem;
     margin-bottom: 0.25rem;
   }
 
   .product-price {
-    font-size: 0.55rem;
+    font-size: 0.45rem;
     margin-bottom: 0.75rem;
   }
 

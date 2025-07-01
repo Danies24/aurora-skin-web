@@ -1,6 +1,6 @@
-
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { subscribeToCartItems } from "@/lib/firebase/firebaseHelpers";
 
 export interface CartItem {
   id: string;
@@ -21,7 +21,11 @@ interface CartStore {
   updateQuantity: (id: string, size: string, quantity: number) => void;
   clearCart: () => void;
   getItemCount: () => number;
+  syncWithFirestore: (userId: string) => void;
+  unsubscribe: () => void;
 }
+
+let unsubscribeCart: (() => void) | null = null;
 
 export const useCartStore = create<CartStore>()(
   persist(
@@ -51,8 +55,11 @@ export const useCartStore = create<CartStore>()(
         // Update totals
         const newItems = get().items;
         const totalItems = newItems.reduce((sum, i) => sum + i.quantity, 0);
-        const totalPrice = newItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-        
+        const totalPrice = newItems.reduce(
+          (sum, i) => sum + i.price * i.quantity,
+          0
+        );
+
         set({ totalItems, totalPrice });
       },
 
@@ -61,10 +68,13 @@ export const useCartStore = create<CartStore>()(
         const newItems = state.items.filter(
           (item) => !(item.id === id && item.size === size)
         );
-        
+
         const totalItems = newItems.reduce((sum, i) => sum + i.quantity, 0);
-        const totalPrice = newItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-        
+        const totalPrice = newItems.reduce(
+          (sum, i) => sum + i.price * i.quantity,
+          0
+        );
+
         set({ items: newItems, totalItems, totalPrice });
       },
 
@@ -76,14 +86,15 @@ export const useCartStore = create<CartStore>()(
 
         const state = get();
         const newItems = state.items.map((item) =>
-          item.id === id && item.size === size
-            ? { ...item, quantity }
-            : item
+          item.id === id && item.size === size ? { ...item, quantity } : item
         );
-        
+
         const totalItems = newItems.reduce((sum, i) => sum + i.quantity, 0);
-        const totalPrice = newItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-        
+        const totalPrice = newItems.reduce(
+          (sum, i) => sum + i.price * i.quantity,
+          0
+        );
+
         set({ items: newItems, totalItems, totalPrice });
       },
 
@@ -93,6 +104,45 @@ export const useCartStore = create<CartStore>()(
 
       getItemCount: () => {
         return get().items.reduce((sum, item) => sum + item.quantity, 0);
+      },
+
+      syncWithFirestore: (userId: string) => {
+        if (unsubscribeCart) unsubscribeCart();
+        unsubscribeCart = subscribeToCartItems(userId, (firestoreItems) => {
+          set({
+            items: firestoreItems.map((item) => ({
+              id: item.productId,
+              name: item.productName,
+              price: item.price,
+              size: item.variant,
+              weight: item.weight,
+              image: item.image,
+              quantity: item.quantity,
+            })),
+          });
+          const newItems = firestoreItems.map((item) => ({
+            id: item.productId,
+            name: item.productName,
+            price: item.price,
+            size: item.variant,
+            weight: item.weight,
+            image: item.image,
+            quantity: item.quantity,
+          }));
+          const totalItems = newItems.reduce((sum, i) => sum + i.quantity, 0);
+          const totalPrice = newItems.reduce(
+            (sum, i) => sum + i.price * i.quantity,
+            0
+          );
+          set({ totalItems, totalPrice });
+        });
+      },
+
+      unsubscribe: () => {
+        if (unsubscribeCart) {
+          unsubscribeCart();
+          unsubscribeCart = null;
+        }
       },
     }),
     {

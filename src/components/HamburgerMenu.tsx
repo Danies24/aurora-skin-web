@@ -1,11 +1,20 @@
-
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
-import { FaBars, FaTimes, FaWhatsapp, FaSearch, FaShoppingCart, FaUserCircle } from "react-icons/fa";
+import {
+  FaBars,
+  FaTimes,
+  FaWhatsapp,
+  FaSearch,
+  FaShoppingCart,
+  FaUserCircle,
+} from "react-icons/fa";
 import SearchModal from "./SearchModal";
 import "@/styles/components/hamburger-menu.css";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
+import CartIcon from "./CartIcon";
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +41,27 @@ const HamburgerMenu = () => {
     closeMenu();
   };
 
+  const router = useRouter();
+  const { isLoggedIn } = useAuthStore();
+
+  const handleCartClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      router.push("/login");
+    } else {
+      router.push("/cart");
+    }
+  };
+
+  const handleProfileClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      router.push("/login");
+    } else {
+      router.push("/profile");
+    }
+  };
+
   return (
     <header className="header">
       <div className="header-container">
@@ -50,23 +80,31 @@ const HamburgerMenu = () => {
           <Link href="/contact" className="nav-item">
             Contact
           </Link>
-          
+
           <div className="nav-icons">
-            <button 
-              onClick={handleSearchClick} 
+            <button
+              onClick={handleSearchClick}
               className="nav-icon-button"
               aria-label="Search products"
             >
               <FaSearch />
             </button>
-            <Link href="/cart" className="nav-icon-button" aria-label="Shopping cart">
-              <FaShoppingCart />
-            </Link>
-            <Link href="/login" className="nav-icon-button" aria-label="User profile">
+            <button
+              onClick={handleCartClick}
+              className="nav-icon-button"
+              aria-label="Shopping cart"
+            >
+              <CartIcon />
+            </button>
+            <button
+              onClick={handleProfileClick}
+              className="nav-icon-button"
+              aria-label="User profile"
+            >
               <FaUserCircle />
-            </Link>
-            <button 
-              onClick={handleWhatsAppClick} 
+            </button>
+            <button
+              onClick={handleWhatsAppClick}
               className="whatsapp-button"
               aria-label="Order on WhatsApp"
             >
@@ -76,8 +114,8 @@ const HamburgerMenu = () => {
         </nav>
 
         {/* Mobile Hamburger Button */}
-        <button 
-          className="hamburger-button" 
+        <button
+          className="hamburger-button"
           onClick={toggleMenu}
           aria-label={isOpen ? "Close menu" : "Open menu"}
           aria-expanded={isOpen}
@@ -92,15 +130,15 @@ const HamburgerMenu = () => {
         onClick={closeMenu}
         role="presentation"
       >
-        <nav 
+        <nav
           className={`menu-content ${isOpen ? "active" : ""}`}
           role="navigation"
           aria-label="Mobile navigation menu"
         >
           <div className="menu-header">
             <h2 className="menu-title">Menu</h2>
-            <button 
-              onClick={closeMenu} 
+            <button
+              onClick={closeMenu}
               className="close-button"
               aria-label="Close menu"
             >
@@ -121,12 +159,12 @@ const HamburgerMenu = () => {
             <Link href="/contact" className="menu-item" onClick={closeMenu}>
               Contact
             </Link>
-            <Link href="/cart" className="menu-item" onClick={closeMenu}>
+            <button onClick={handleCartClick} className="menu-item">
               <FaShoppingCart /> Cart
-            </Link>
-            <Link href="/login" className="menu-item" onClick={closeMenu}>
+            </button>
+            <button onClick={handleProfileClick} className="menu-item">
               <FaUserCircle /> Profile
-            </Link>
+            </button>
           </div>
 
           <div className="menu-footer">

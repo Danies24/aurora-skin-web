@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -6,15 +5,24 @@ import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase/firebase";
 import { useAuthStore } from "@/store/authStore";
-import { getUserById, getAddresses, AddressDetail } from "@/lib/firebase/firebaseHelpers";
+import {
+  getUserById,
+  getAddresses,
+  AddressDetail,
+} from "@/lib/firebase/firebaseHelpers";
 import toast from "react-hot-toast";
 import "@/styles/components/profile.css";
 
 const ProfilePage = () => {
   const router = useRouter();
-  const { isLoggedIn, userId, user, setLoggedIn, setUserId, setUser } = useAuthStore();
+  const { isLoggedIn, userId, setLoggedIn, setUserId, setUser, user } =
+    useAuthStore();
   const [addresses, setAddresses] = useState<AddressDetail[]>([]);
   const [loading, setLoading] = useState(true);
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [mobile, setMobile] = useState<string>("");
+  const [pincode, setPincode] = useState<string>("");
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -23,11 +31,20 @@ const ProfilePage = () => {
     }
 
     const loadUserData = async () => {
-      if (userId) {
+      if (user) {
+        setFirstName(user.firstName || "Not provided");
+        setLastName(user.lastName || "Not provided");
+        setMobile(user.phone || "Not provided");
+        setPincode(user.pincode || "Not provided");
+      } else if (userId) {
         try {
           const userData = await getUserById(userId);
           if (userData) {
             setUser(userData);
+            setFirstName(userData.firstName || "Not provided");
+            setLastName(userData.lastName || "Not provided");
+            setMobile(userData.phone || "Not provided");
+            setPincode(userData.pincode || "Not provided");
           }
 
           const userAddresses = await getAddresses(userId);
@@ -41,7 +58,7 @@ const ProfilePage = () => {
     };
 
     loadUserData();
-  }, [isLoggedIn, userId, router, setUser]);
+  }, [isLoggedIn, userId, user, router, setUser]);
 
   const handleLogout = async () => {
     try {
@@ -84,19 +101,19 @@ const ProfilePage = () => {
             <div className="info-grid">
               <div className="info-item">
                 <label>First Name</label>
-                <span>{user?.firstName || "Not provided"}</span>
+                <span>{firstName}</span>
               </div>
               <div className="info-item">
                 <label>Last Name</label>
-                <span>{user?.lastName || "Not provided"}</span>
+                <span>{lastName}</span>
               </div>
               <div className="info-item">
                 <label>Mobile Number</label>
-                <span>{user?.phone || "Not provided"}</span>
+                <span>{mobile}</span>
               </div>
               <div className="info-item">
                 <label>Pincode</label>
-                <span>{user?.pincode || "Not provided"}</span>
+                <span>{pincode}</span>
               </div>
             </div>
           </div>
@@ -109,11 +126,15 @@ const ProfilePage = () => {
                   <div key={address.id} className="address-card">
                     <div className="address-header">
                       <h3>{address.fullName}</h3>
-                      {address.default && <span className="default-badge">Default</span>}
+                      {address.default && (
+                        <span className="default-badge">Default</span>
+                      )}
                     </div>
                     <p>{address.addressLine1}</p>
                     {address.addressLine2 && <p>{address.addressLine2}</p>}
-                    <p>{address.city}, {address.state} - {address.pincode}</p>
+                    <p>
+                      {address.city}, {address.state} - {address.pincode}
+                    </p>
                     <p>Phone: {address.phone}</p>
                   </div>
                 ))}

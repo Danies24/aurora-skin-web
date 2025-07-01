@@ -19,7 +19,7 @@ export default function VerifyPage() {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { setLoggedIn, setUserId, setUser, phone } = useAuthStore();
+  const { setLoggedIn, setUserId, setUser, phone, name } = useAuthStore();
 
   const verifyOtp = async () => {
     if (!phone) {
@@ -36,10 +36,17 @@ export default function VerifyPage() {
       let user = await getUserByPhone(phone);
 
       if (!user) {
-        // Create new user with basic info
+        // Create new user with name and phone
+        let firstName = name || "";
+        let lastName = "";
+        if (name && name.trim().includes(" ")) {
+          const parts = name.trim().split(" ");
+          firstName = parts[0];
+          lastName = parts.slice(1).join(" ");
+        }
         await createUser({
-          firstName: "",
-          lastName: "",
+          firstName,
+          lastName,
           phone: phone,
           pincode: "",
         });

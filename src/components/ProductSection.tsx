@@ -1,15 +1,13 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/constants/products";
-import { FaStar } from "react-icons/fa";
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
 import { addToCart } from "@/lib/firebase/firebaseHelpers";
-import "@/styles/components/product.css";
+import "@/styles/components/product-section.css";
 import toast from "react-hot-toast";
 
 type ProductSectionProps = {
@@ -24,7 +22,9 @@ const ProductSection = ({ title, subTitle, products }: ProductSectionProps) => {
   const { items: cartItems, addItem } = useCartStore();
 
   const isInCart = (productId: string, size: string) => {
-    return cartItems.some(item => item.id === productId && item.size === size);
+    return cartItems.some(
+      (item) => item.id === productId && item.size === size
+    );
   };
 
   const handleAddToCart = async (product: Product) => {
@@ -78,7 +78,7 @@ const ProductSection = ({ title, subTitle, products }: ProductSectionProps) => {
         <div className="product-grid">
           {products.map((product) => {
             const inCart = isInCart(product.id, product.variants[0].size);
-            
+
             return (
               <div
                 key={product.id}
@@ -100,19 +100,28 @@ const ProductSection = ({ title, subTitle, products }: ProductSectionProps) => {
                   </p>
                   <h3 className="product-name">{product.name}</h3>
                   <p className="product-benefit">{product.benefit}</p>
-                  <div className="product-reviews">
-                    <FaStar className="star-icon" />
-                    <span>4.8 (120+ reviews)</span>
-                  </div>
                   <p className="product-variant">{product.variants[0].size}</p>
-                  <p className="product-price">₹{product.variants[0].price}</p>
+                  <p className="product-price">
+                    {product.variants[0].strikedPrice && (
+                      <span className="striked-price">
+                        ₹{product.variants[0].strikedPrice}
+                      </span>
+                    )}
+                    <span className="discounted-price">
+                      ₹{product.variants[0].price}
+                    </span>
+                  </p>
 
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      inCart ? handleGoToBag() : handleAddToCart(product);
+                      if (inCart) {
+                        handleGoToBag();
+                      } else {
+                        handleAddToCart(product);
+                      }
                     }}
-                    className={`product-button ${inCart ? 'in-cart' : ''}`}
+                    className={`product-button ${inCart ? "in-cart" : ""}`}
                   >
                     {inCart ? "Go to Bag" : "Add to Cart"}
                   </Button>

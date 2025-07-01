@@ -1,4 +1,3 @@
-
 /* Reset default margins and padding */
 * {
   margin: 0;
@@ -118,7 +117,7 @@
 
 .product-name {
   font-family: var(--font-herbal);
-  font-size: 0.9rem; /* reduced from 1.25rem */
+  font-size: 0.9rem;
   color: var(--herb-green-dark);
   margin-bottom: 0.5rem;
 }
@@ -155,6 +154,19 @@
   font-weight: 600;
   margin-bottom: 1rem;
   font-size: 1rem; /* reduced from 1.125rem */
+}
+
+.striked-price {
+  color: #aaa;
+  text-decoration: line-through;
+  font-size: 0.95em;
+  margin-right: 8px;
+}
+
+.discounted-price {
+  color: #222;
+  font-weight: bold;
+  font-size: 1.1em;
 }
 
 .product-button {

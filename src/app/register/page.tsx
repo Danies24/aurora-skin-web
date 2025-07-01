@@ -8,33 +8,34 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import "@/styles/components/login.css";
 
-declare global {
-  interface Window {
-    confirmationResult: {
-      confirm: (code: string) => Promise<unknown>;
-    };
-  }
-}
-
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const router = useRouter();
   const setPhoneInStore = useAuthStore((s) => s.setPhone);
+  const setNameInStore = useAuthStore((s) => s.setName);
 
   const sendOtp = async () => {
+    if (!name.trim()) {
+      toast.error("Please enter your name");
+      return;
+    }
+    if (!/^\d{10}$/.test(phone)) {
+      toast.error("Please enter a valid 10-digit phone number");
+      return;
+    }
     try {
       const appVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
         size: "invisible",
       });
-
       const confirmationResult = await signInWithPhoneNumber(
         auth,
         `+91${phone}`,
         appVerifier
       );
-
       window.confirmationResult = confirmationResult;
       setPhoneInStore(phone);
+      setNameInStore(name);
       toast.success("OTP sent successfully");
       router.push("/verify-otp");
     } catch (e) {
@@ -53,16 +54,14 @@ export default function LoginPage() {
         <button className="close-button" onClick={handleClose}>
           <span className="close-icon">×</span>
         </button>
-
         <div className="login-container">
           <div className="login-header">
             <div className="brand-icon">🌿</div>
-            <h1 className="login-title">Welcome to Herb Aurora</h1>
+            <h1 className="login-title">Create your Herb Aurora Account</h1>
             <p className="login-subtitle">
-              Enter your mobile number to get started
+              Enter your name and mobile number to register
             </p>
           </div>
-
           <form
             className="login-form"
             onSubmit={(e) => {
@@ -70,6 +69,19 @@ export default function LoginPage() {
               sendOtp();
             }}
           >
+            <div className="input-group">
+              <label htmlFor="name" className="input-label">
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your name"
+                className="login-input"
+              />
+            </div>
             <div className="input-group">
               <label htmlFor="phone" className="input-label">
                 Mobile Number
@@ -87,26 +99,17 @@ export default function LoginPage() {
                 />
               </div>
             </div>
-
             <button type="submit" className="login-button">
               <span className="button-text">Send OTP</span>
               <span className="button-icon">→</span>
             </button>
           </form>
-
           <div className="login-footer">
             <p className="footer-text">
-              By continuing, you agree to our Terms of Service and Privacy
+              By registering, you agree to our Terms of Service and Privacy
               Policy
             </p>
-            <p className="footer-text">
-              Don&apos;t have an account?{" "}
-              <a href="/register" className="register-link">
-                Register here
-              </a>
-            </p>
           </div>
-
           <div id="recaptcha-container"></div>
         </div>
       </div>

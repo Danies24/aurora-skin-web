@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import { Toaster } from "react-hot-toast"; // 👈 required for toast to work
+import AuthCartSync from "@/components/AuthCartSync";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,6 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <AuthCartSync />
         <HamburgerMenu />
         {children}
         <Toaster position="top-center" /> {/* 👈 Enables toast globally */}
