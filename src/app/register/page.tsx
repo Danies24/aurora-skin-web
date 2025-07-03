@@ -1,117 +1,117 @@
 "use client";
 
 import { useState } from "react";
-import { signInWithPhoneNumber } from "firebase/auth";
-import { auth, RecaptchaVerifier } from "@/lib/firebase/firebase";
+import { auth, db } from "@/lib/firebase/firebase";
+import { doc, setDoc } from "firebase/firestore";
 import { useAuthStore } from "@/store/authStore";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import "@/styles/components/login.css";
 
 export default function RegisterPage() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [pincode, setPincode] = useState("");
+  const { userId, phone, setUser } = useAuthStore();
   const router = useRouter();
-  const setPhoneInStore = useAuthStore((s) => s.setPhone);
-  const setNameInStore = useAuthStore((s) => s.setName);
 
-  const sendOtp = async () => {
-    if (!name.trim()) {
-      toast.error("Please enter your name");
-      return;
-    }
-    if (!/^\d{10}$/.test(phone)) {
-      toast.error("Please enter a valid 10-digit phone number");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!firstName.trim() || !lastName.trim() || !pincode.trim()) {
+      toast.error("All fields are required");
       return;
     }
     try {
-      const appVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-        size: "invisible",
-      });
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        `+91${phone}`,
-        appVerifier
+      const uid = userId || auth.currentUser?.uid;
+      if (!uid) throw new Error("No user ID");
+      await setDoc(
+        doc(db, "users", uid),
+        {
+          firstName,
+          lastName,
+          phoneNumber: phone,
+          pincode,
+        },
+        { merge: true }
       );
-      window.confirmationResult = confirmationResult;
-      setPhoneInStore(phone);
-      setNameInStore(name);
-      toast.success("OTP sent successfully");
-      router.push("/verify-otp");
+      setUser({
+        id: uid,
+        firstName,
+        lastName,
+        phone: phone || "",
+        pincode,
+        createdAt:
+          new Date() as unknown as import("firebase/firestore").Timestamp,
+      });
+      toast.success("Profile completed!");
+      router.push("/cart");
     } catch (e) {
-      toast.error("Failed to send OTP");
+      toast.error("Failed to save profile");
       console.error(e);
     }
   };
 
-  const handleClose = () => {
-    router.back();
-  };
-
   return (
-    <div className="login-modal-overlay">
-      <div className="login-modal">
-        <button className="close-button" onClick={handleClose}>
-          <span className="close-icon">×</span>
-        </button>
-        <div className="login-container">
-          <div className="login-header">
-            <div className="brand-icon">🌿</div>
-            <h1 className="login-title">Create your Herb Aurora Account</h1>
-            <p className="login-subtitle">
-              Enter your name and mobile number to register
-            </p>
+    <div className="register-page">
+      <div className="register-container">
+        <h1 className="register-title">Complete Your Profile</h1>
+        <form className="register-form" onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="firstName" className="input-label">
+              First Name
+            </label>
+            <input
+              id="firstName"
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="Enter your first name"
+              className="login-input"
+            />
           </div>
-          <form
-            className="login-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              sendOtp();
-            }}
-          >
-            <div className="input-group">
-              <label htmlFor="name" className="input-label">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
-                className="login-input"
-              />
-            </div>
-            <div className="input-group">
-              <label htmlFor="phone" className="input-label">
-                Mobile Number
-              </label>
-              <div className="phone-input-wrapper">
-                <span className="country-code">+91</span>
-                <input
-                  id="phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Enter your mobile number"
-                  className="login-input"
-                  maxLength={10}
-                />
-              </div>
-            </div>
-            <button type="submit" className="login-button">
-              <span className="button-text">Send OTP</span>
-              <span className="button-icon">→</span>
-            </button>
-          </form>
-          <div className="login-footer">
-            <p className="footer-text">
-              By registering, you agree to our Terms of Service and Privacy
-              Policy
-            </p>
+          <div className="input-group">
+            <label htmlFor="lastName" className="input-label">
+              Last Name
+            </label>
+            <input
+              id="lastName"
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Enter your last name"
+              className="login-input"
+            />
           </div>
-          <div id="recaptcha-container"></div>
-        </div>
+          <div className="input-group">
+            <label htmlFor="phoneNumber" className="input-label">
+              Mobile Number
+            </label>
+            <input
+              id="phoneNumber"
+              type="text"
+              value={phone || ""}
+              readOnly
+              className="login-input"
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="pincode" className="input-label">
+              Pincode
+            </label>
+            <input
+              id="pincode"
+              type="text"
+              value={pincode}
+              onChange={(e) => setPincode(e.target.value)}
+              placeholder="Enter your pincode"
+              className="login-input"
+            />
+          </div>
+          <button type="submit" className="login-button">
+            <span className="button-text">Save & Continue</span>
+            <span className="button-icon">→</span>
+          </button>
+        </form>
       </div>
     </div>
   );

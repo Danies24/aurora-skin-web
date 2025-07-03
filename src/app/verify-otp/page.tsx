@@ -4,8 +4,10 @@ import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { getUserByPhone, createUser } from "@/lib/firebase/firebaseHelpers";
 import "@/styles/components/verifyotp.css";
+import { auth, db } from "@/lib/firebase/firebase";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { useCartStore } from "@/store/cartStore";
 
 declare global {
   interface Window {
@@ -19,7 +21,8 @@ export default function VerifyPage() {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { setLoggedIn, setUserId, setUser, phone, name } = useAuthStore();
+  const { setLoggedIn, setUserId, setUser, phone } = useAuthStore();
+  const { items: localCart, clearCart } = useCartStore();
 
   const verifyOtp = async () => {
     if (!phone) {
@@ -27,45 +30,90 @@ export default function VerifyPage() {
       router.push("/login");
       return;
     }
-
     setIsLoading(true);
     try {
+      // 1. Verify OTP with Firebase Auth
       await window.confirmationResult.confirm(otp);
+      const user = auth.currentUser;
+      if (!user) throw new Error("No authenticated user");
 
-      // Check if user exists in Firestore
-      let user = await getUserByPhone(phone);
+      // 2. Fetch Firestore user doc
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      const userData = userSnap.exists() ? userSnap.data() : null;
 
-      if (!user) {
-        // Create new user with name and phone
-        let firstName = name || "";
-        let lastName = "";
-        if (name && name.trim().includes(" ")) {
-          const parts = name.trim().split(" ");
-          firstName = parts[0];
-          lastName = parts.slice(1).join(" ");
-        }
-        await createUser({
-          firstName,
-          lastName,
-          phone: phone,
-          pincode: "",
-        });
+      // 3. Check for required fields
+      const requiredFields = [
+        "firstName",
+        "lastName",
+        "phoneNumber",
+        "pincode",
+      ];
+      const isComplete =
+        userData &&
+        requiredFields.every(
+          (field) => userData[field] && userData[field].trim()
+        );
 
-        // Get the created user
-        user = await getUserByPhone(phone);
-      }
-
-      if (user) {
+      if (!isComplete) {
+        // 4. Redirect to /register to complete profile
         setLoggedIn(true);
-        setUserId(user.id);
-        setUser(user);
-        toast.success("Login successful");
-        router.push("/");
-      } else {
-        toast.error("Failed to create user account");
+        setUserId(user.uid);
+        setUser({
+          id: user.uid,
+          firstName: userData?.firstName || "",
+          lastName: userData?.lastName || "",
+          phone: userData?.phoneNumber || phone,
+          pincode: userData?.pincode || "",
+          createdAt:
+            new Date() as unknown as import("firebase/firestore").Timestamp, // Not used in Zustand UI, just for type
+        });
+        router.push("/register");
+        return;
       }
+
+      // 5. If complete, update Zustand, merge cart, redirect to /cart
+      setLoggedIn(true);
+      setUserId(user.uid);
+      setUser({
+        id: user.uid,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        phone: userData.phoneNumber,
+        pincode: userData.pincode,
+        createdAt:
+          new Date() as unknown as import("firebase/firestore").Timestamp, // Not used in Zustand UI, just for type
+      });
+
+      // 6. Merge localStorage cart into Firestore
+      if (localCart && localCart.length > 0) {
+        const batch = [];
+        for (const item of localCart) {
+          // Use a subcollection for cart items
+          const itemRef = doc(
+            db,
+            `users/${user.uid}/cartItems`,
+            `${item.id}_${item.size}`
+          );
+          batch.push(
+            setDoc(
+              itemRef,
+              {
+                ...item,
+                createdAt: serverTimestamp(),
+              },
+              { merge: true }
+            )
+          );
+        }
+        await Promise.all(batch);
+        clearCart();
+      }
+
+      toast.success("Login successful! Cart synced.");
+      router.push("/cart");
     } catch (e) {
-      toast.error("Invalid OTP");
+      toast.error("Invalid OTP or login failed");
       console.error(e);
     } finally {
       setIsLoading(false);

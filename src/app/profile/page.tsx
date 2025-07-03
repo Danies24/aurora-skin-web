@@ -31,6 +31,8 @@ const ProfilePage = () => {
     }
 
     const loadUserData = async () => {
+      console.log("[Profile] userId:", userId);
+      console.log("[Profile] user:", user);
       if (user) {
         setFirstName(user.firstName || "Not provided");
         setLastName(user.lastName || "Not provided");
@@ -46,12 +48,23 @@ const ProfilePage = () => {
             setMobile(userData.phone || "Not provided");
             setPincode(userData.pincode || "Not provided");
           }
-
-          const userAddresses = await getAddresses(userId);
-          setAddresses(userAddresses);
         } catch (error) {
           console.error("Error loading user data:", error);
           toast.error("Failed to load profile data");
+        }
+      }
+      // Always fetch addresses after login
+      if (userId) {
+        try {
+          const userAddresses = await getAddresses(userId);
+          setAddresses(userAddresses);
+          console.log("[Profile] addresses:", userAddresses);
+          if (userAddresses.length === 0) {
+            toast("No addresses found for this user.");
+          }
+        } catch (error) {
+          console.error("Error loading addresses:", error);
+          toast.error("Failed to load addresses");
         }
       }
       setLoading(false);
@@ -72,6 +85,16 @@ const ProfilePage = () => {
       console.error("Error logging out:", error);
       toast.error("Failed to logout");
     }
+  };
+
+  // Manual refresh for debugging
+  const handleRefresh = () => {
+    setLoading(true);
+    setTimeout(() => {
+      // force refetch by clearing user in Zustand
+      setUser(null);
+      // This will trigger the useEffect to fetch from Firestore
+    }, 100);
   };
 
   if (loading) {
@@ -152,6 +175,13 @@ const ProfilePage = () => {
           <div className="profile-actions">
             <button onClick={handleLogout} className="logout-button">
               Logout
+            </button>
+            <button
+              onClick={handleRefresh}
+              className="refresh-button"
+              style={{ marginLeft: 8 }}
+            >
+              Refresh
             </button>
           </div>
         </div>
