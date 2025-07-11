@@ -7,6 +7,7 @@ import HamburgerMenu from "@/components/HamburgerMenu";
 import { Toaster } from "react-hot-toast";
 import AuthCartSync from "@/components/AuthCartSync";
 import GlobalAuthModal from "@/components/GlobalAuthModal";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -52,7 +53,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head />
       <body className={inter.className}>
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="afterInteractive"
+          type="text/javascript"
+        />
         <AuthCartSync />
         <HamburgerMenu />
         {children}

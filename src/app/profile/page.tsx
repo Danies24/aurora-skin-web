@@ -13,6 +13,14 @@ import {
 import toast from "react-hot-toast";
 import "@/styles/components/profile.css";
 
+type Order = {
+  id: string;
+  createdAt?: string;
+  status?: string;
+  cart?: unknown[];
+  [key: string]: unknown;
+};
+
 const ProfilePage = () => {
   const router = useRouter();
   const { isLoggedIn, userId, setLoggedIn, setUserId, setUser, user } =
@@ -23,6 +31,9 @@ const ProfilePage = () => {
   const [lastName, setLastName] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
   const [pincode, setPincode] = useState<string>("");
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [ordersError, setOrdersError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -71,6 +82,34 @@ const ProfilePage = () => {
     };
 
     loadUserData();
+
+    // Fetch orders
+    const fetchOrders = async () => {
+      setOrdersLoading(true);
+      setOrdersError(null);
+      try {
+        const userIdToFetch =
+          userId || user?.id || (user && "uid" in user ? user.uid : null);
+        if (!userIdToFetch) {
+          setOrdersError("User ID not found");
+          setOrdersLoading(false);
+          return;
+        }
+        const res = await fetch(`/api/orders?userId=${userIdToFetch}`);
+        const data = await res.json();
+        if (data.orders) {
+          setOrders(data.orders);
+        } else {
+          setOrders([]);
+        }
+      } catch {
+        setOrdersError("Failed to fetch orders");
+        setOrders([]);
+      } finally {
+        setOrdersLoading(false);
+      }
+    };
+    fetchOrders();
   }, [isLoggedIn, userId, user, router, setUser]);
 
   const handleLogout = async () => {
@@ -169,7 +208,36 @@ const ProfilePage = () => {
 
           <div className="profile-section">
             <h2 className="section-title">Order History</h2>
-            <p className="no-orders">No orders placed yet</p>
+            {ordersLoading ? (
+              <div className="loading-spinner">Loading orders...</div>
+            ) : ordersError ? (
+              <p className="no-orders">{ordersError}</p>
+            ) : orders.length === 0 ? (
+              <p className="no-orders">No orders placed yet</p>
+            ) : (
+              <div className="order-list">
+                {orders.map((order) => (
+                  <div key={order.id} className="order-card">
+                    <div>
+                      <strong>Order ID:</strong> {order.id}
+                    </div>
+                    <div>
+                      <strong>Date:</strong>{" "}
+                      {order.createdAt
+                        ? new Date(order.createdAt).toLocaleString()
+                        : "-"}
+                    </div>
+                    <div>
+                      <strong>Status:</strong> {order.status || "Placed"}
+                    </div>
+                    <div>
+                      <strong>Items:</strong>{" "}
+                      {order.cart ? order.cart.length : 0}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="profile-actions">

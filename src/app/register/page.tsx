@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -19,7 +18,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!firstName.trim() || !lastName.trim() || !pincode.trim()) {
       toast.error("All fields are required");
       return;
@@ -34,7 +33,7 @@ export default function RegisterPage() {
     try {
       const uid = userId || auth.currentUser?.uid;
       if (!uid) throw new Error("No user ID");
-      
+
       await setDoc(
         doc(db, "users", uid),
         {
@@ -45,16 +44,17 @@ export default function RegisterPage() {
         },
         { merge: true }
       );
-      
+
       setUser({
         id: uid,
         firstName,
         lastName,
         phone: phone || "",
         pincode,
-        createdAt: new Date() as unknown as import("firebase/firestore").Timestamp,
+        createdAt:
+          new Date() as unknown as import("firebase/firestore").Timestamp,
       });
-      
+
       toast.success("Profile completed!");
       router.push("/cart");
     } catch (e) {
@@ -101,7 +101,7 @@ export default function RegisterPage() {
                 disabled={isLoading}
               />
             </div>
-            
+
             <div className="input-group">
               <label htmlFor="lastName" className="input-label">
                 Last Name *
@@ -117,7 +117,7 @@ export default function RegisterPage() {
               />
             </div>
           </div>
-          
+
           <div className="input-group">
             <label htmlFor="phoneNumber" className="input-label">
               Mobile Number
@@ -133,7 +133,7 @@ export default function RegisterPage() {
               />
             </div>
           </div>
-          
+
           <div className="input-group">
             <label htmlFor="pincode" className="input-label">
               Pincode *
@@ -149,8 +149,12 @@ export default function RegisterPage() {
               disabled={isLoading}
             />
           </div>
-          
-          <button type="submit" className="register-button" disabled={isLoading}>
+
+          <button
+            type="submit"
+            className="register-button"
+            disabled={isLoading}
+          >
             <span className="button-text">
               {isLoading ? "Saving..." : "Save & Continue"}
             </span>
@@ -161,9 +165,13 @@ export default function RegisterPage() {
         <div className="register-footer">
           <p className="footer-text">
             By continuing, you agree to our{" "}
-            <a href="/privacy" className="footer-link">Terms of Service</a>
-            {" "}and{" "}
-            <a href="/privacy" className="footer-link">Privacy Policy</a>
+            <a href="/privacy" className="footer-link">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="/privacy" className="footer-link">
+              Privacy Policy
+            </a>
           </p>
         </div>
       </div>

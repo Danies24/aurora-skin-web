@@ -244,6 +244,19 @@ const ProductDetailsPage = () => {
               </div>
             </div>
 
+            {/* Add to Cart Button */}
+            <button
+              onClick={handleCartButtonClick}
+              className={
+                isInCart
+                  ? "add-to-cart-button go-to-bag-button"
+                  : "add-to-cart-button"
+              }
+              disabled={isInCart}
+            >
+              {isInCart ? "Go to Bag" : "Add to Cart"}
+            </button>
+
             <div>
               <h2 className="section-title">Key Ingredients</h2>
               <p className="section-content">{product.ingredients}</p>
@@ -264,19 +277,6 @@ const ProductDetailsPage = () => {
                 </ul>
               </div>
             )}
-
-            {/* Add to Cart Button */}
-            <button
-              onClick={handleCartButtonClick}
-              className={
-                isInCart
-                  ? "add-to-cart-button go-to-bag-button"
-                  : "add-to-cart-button"
-              }
-              disabled={isInCart}
-            >
-              {isInCart ? "Go to Bag" : "Add to Cart"}
-            </button>
           </div>
         </div>
       </div>
