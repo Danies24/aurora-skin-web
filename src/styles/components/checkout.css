@@ -1,28 +1,76 @@
 
 .checkout-page {
   min-height: 100vh;
-  background-color: var(--herb-cream);
+  background: linear-gradient(135deg, var(--herb-cream) 0%, #f0f8e8 25%, #fff8e1 50%, #f0f8e8 75%, var(--herb-cream) 100%);
   padding: 7rem 0 6rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.checkout-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 15% 25%, rgba(44, 85, 48, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(255, 215, 0, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(74, 120, 80, 0.03) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .checkout-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .checkout-title {
   font-family: "Playfair Display", serif;
-  font-size: 2rem;
-  color: var(--herb-green);
-  margin-bottom: 2rem;
+  font-size: 2.75rem;
+  background: linear-gradient(135deg, var(--herb-green) 0%, var(--herb-green-light) 50%, var(--herb-turmeric) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2.5rem;
   text-align: center;
+  position: relative;
+  font-weight: 700;
+}
+
+.checkout-title::before {
+  content: '🌱';
+  position: absolute;
+  left: -4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.5rem;
+  animation: gentle-pulse 2s ease-in-out infinite;
+}
+
+.checkout-title::after {
+  content: '🌿';
+  position: absolute;
+  right: -4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.5rem;
+  animation: gentle-pulse 2s ease-in-out infinite reverse;
+}
+
+@keyframes gentle-pulse {
+  0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-50%) scale(1.1); opacity: 1; }
 }
 
 .checkout-content {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 2.5rem;
   margin-bottom: 2rem;
 }
 
@@ -34,10 +82,30 @@
 
 .checkout-left,
 .checkout-right {
-  background: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, white 0%, #fefffe 50%, #f9fffe 100%);
+  border-radius: 2rem;
+  padding: 2.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border: 3px solid rgba(var(--herb-green-rgb), 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.checkout-left::before,
+.checkout-right::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(var(--herb-green-rgb), 0.02) 0%, transparent 50%);
+  animation: gentle-rotate 20s linear infinite;
+}
+
+@keyframes gentle-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .payment-section {
@@ -45,10 +113,11 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
-  padding: 1rem;
-  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, white 0%, #f8fffe 100%);
+  padding: 1.5rem;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
   z-index: 100;
+  border-top: 3px solid rgba(var(--herb-green-rgb), 0.2);
 }
 
 @media (min-width: 768px) {
@@ -57,23 +126,141 @@
     background: transparent;
     box-shadow: none;
     padding: 0;
+    border-top: none;
   }
 }
 
 .pay-button {
   width: 100%;
-  background-color: var(--herb-green);
+  background: linear-gradient(135deg, var(--herb-green) 0%, var(--herb-green-light) 50%, var(--herb-turmeric) 100%);
   color: white;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 2rem;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 1.125rem;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  font-size: 1.375rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 35px rgba(var(--herb-green-rgb), 0.4);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.pay-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.pay-button:hover::before {
+  left: 100%;
 }
 
 .pay-button:hover {
-  background-color: var(--herb-green-dark);
+  background: linear-gradient(135deg, var(--herb-green-light) 0%, var(--herb-turmeric) 50%, var(--herb-green) 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(var(--herb-green-rgb), 0.5);
+}
+
+.pay-button:active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(var(--herb-green-rgb), 0.6);
+}
+
+/* Progress indicator for checkout steps */
+.checkout-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.progress-step {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(var(--herb-green-rgb), 0.2);
+  transition: all 0.3s ease;
+}
+
+.progress-step.active {
+  background: var(--herb-green);
+  transform: scale(1.5);
+  box-shadow: 0 0 15px rgba(var(--herb-green-rgb), 0.5);
+}
+
+.progress-step.completed {
+  background: var(--herb-turmeric);
+  transform: scale(1.2);
+}
+
+.progress-line {
+  width: 40px;
+  height: 2px;
+  background: rgba(var(--herb-green-rgb), 0.2);
+  transition: all 0.3s ease;
+}
+
+.progress-line.active {
+  background: var(--herb-green);
+}
+
+/* Floating success animation */
+@keyframes float-up {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.checkout-success-particle {
+  position: absolute;
+  pointer-events: none;
+  animation: float-up 2s ease-out infinite;
+  font-size: 1.5rem;
+}
+
+/* Mobile responsive enhancements */
+@media (max-width: 768px) {
+  .checkout-title {
+    font-size: 2rem;
+  }
+  
+  .checkout-title::before,
+  .checkout-title::after {
+    font-size: 1.5rem;
+  }
+  
+  .checkout-title::before {
+    left: -2.5rem;
+  }
+  
+  .checkout-title::after {
+    right: -2.5rem;
+  }
+  
+  .checkout-left,
+  .checkout-right {
+    padding: 1.5rem;
+  }
+  
+  .pay-button {
+    font-size: 1.125rem;
+    padding: 1.25rem 1.5rem;
+  }
 }

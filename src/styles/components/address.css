@@ -1,41 +1,106 @@
 
 .address-section {
   width: 100%;
+  position: relative;
 }
 
 .address-title {
   font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--herb-green), var(--herb-green-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2rem;
+  position: relative;
+  font-weight: 700;
+}
+
+.address-title::after {
+  content: '📍';
+  position: absolute;
+  right: -3rem;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 1.5rem;
-  color: var(--herb-green);
-  margin-bottom: 1.5rem;
+  animation: gentle-bounce 2s ease-in-out infinite;
+}
+
+@keyframes gentle-bounce {
+  0%, 100% { transform: translateY(-50%); }
+  50% { transform: translateY(-60%); }
 }
 
 .saved-addresses {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .saved-addresses-title {
-  font-size: 1.125rem;
+  font-size: 1.375rem;
   color: var(--herb-green-dark);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.saved-addresses-title::before {
+  content: '🏠';
+  font-size: 1.25rem;
 }
 
 .address-card {
-  border: 2px solid rgba(var(--herb-green-rgb), 0.2);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  transition: border-color 0.3s ease;
+  border: 3px solid rgba(var(--herb-green-rgb), 0.15);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
   cursor: pointer;
+  background: linear-gradient(135deg, white 0%, #fefffe 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.address-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(var(--herb-green-rgb), 0.05), transparent);
+  transition: left 0.5s ease;
 }
 
 .address-card:hover {
   border-color: var(--herb-green);
+  background: linear-gradient(135deg, rgba(var(--herb-green-rgb), 0.02) 0%, rgba(255, 215, 0, 0.02) 100%);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(var(--herb-green-rgb), 0.2);
+}
+
+.address-card:hover::before {
+  left: 100%;
 }
 
 .address-card:has(.address-radio:checked) {
+  border-color: var(--herb-turmeric);
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(var(--herb-green-rgb), 0.05) 100%);
+  box-shadow: 0 12px 30px rgba(255, 215, 0, 0.3);
+  transform: scale(1.02);
+}
+
+.address-card.selected {
+  border-color: var(--herb-turmeric);
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(var(--herb-green-rgb), 0.05) 100%);
+  box-shadow: 0 12px 30px rgba(255, 215, 0, 0.3);
+  transform: scale(1.02);
+}
+
+.address-card.default {
   border-color: var(--herb-green);
-  background-color: rgba(var(--herb-green-rgb), 0.05);
+  background: linear-gradient(135deg, rgba(var(--herb-green-rgb), 0.05) 0%, rgba(255, 215, 0, 0.03) 100%);
 }
 
 .address-radio {
@@ -47,69 +112,196 @@
   display: block;
 }
 
-.address-details {
+.address-details,
+.address-content {
   position: relative;
 }
 
 .address-name {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--herb-green-dark);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.address-name::before {
+  content: '👤';
+  font-size: 1rem;
 }
 
 .address-phone {
-  color: var(--herb-green-dark);
-  opacity: 0.8;
-  margin-bottom: 0.5rem;
+  color: var(--herb-green);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
 }
 
-.address-full {
+.address-phone::before {
+  content: '📱';
+  font-size: 0.9rem;
+}
+
+.address-full,
+.address-details {
   color: var(--herb-green-dark);
-  line-height: 1.5;
-  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(var(--herb-green-rgb), 0.05);
+  border-radius: 1rem;
+  border-left: 4px solid var(--herb-green-light);
+  position: relative;
+}
+
+.address-full::before,
+.address-details::before {
+  content: '📍';
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--herb-green-light);
+  padding: 0.25rem;
+  border-radius: 50%;
+  font-size: 0.8rem;
 }
 
 .default-badge {
-  background-color: var(--herb-green);
-  color: white;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+  background: linear-gradient(135deg, var(--herb-turmeric), #ffd700);
+  color: var(--herb-green-dark);
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1rem;
+  right: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  animation: gentle-glow 2s ease-in-out infinite;
+}
+
+@keyframes gentle-glow {
+  0%, 100% { box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3); }
+  50% { box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5); }
+}
+
+.address-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.set-default-button,
+.delete-address-button {
+  padding: 0.5rem 1rem;
+  border-radius: 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  border: 2px solid;
+  cursor: pointer;
+}
+
+.set-default-button {
+  background: linear-gradient(135deg, var(--herb-green-light), var(--herb-green));
+  color: white;
+  border-color: var(--herb-green);
+  box-shadow: 0 4px 12px rgba(var(--herb-green-rgb), 0.3);
+}
+
+.set-default-button:hover {
+  background: linear-gradient(135deg, var(--herb-green), var(--herb-green-light));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(var(--herb-green-rgb), 0.4);
+}
+
+.delete-address-button {
+  background: linear-gradient(135deg, #ff6b6b, #ff5252);
+  color: white;
+  border-color: #ff5252;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.delete-address-button:hover {
+  background: linear-gradient(135deg, #ff5252, #f44336);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 107, 107, 0.4);
 }
 
 .add-address-button {
   width: 100%;
-  background: none;
-  border: 2px solid var(--herb-green);
+  background: linear-gradient(135deg, transparent, rgba(var(--herb-green-rgb), 0.02));
+  border: 3px dashed var(--herb-green);
   color: var(--herb-green);
-  padding: 0.75rem;
-  border-radius: 0.5rem;
+  padding: 1.25rem;
+  border-radius: 1.5rem;
   cursor: pointer;
   font-weight: 600;
-  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.add-address-button::before {
+  content: '➕';
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  transition: transform 0.3s ease;
 }
 
 .add-address-button:hover {
-  background-color: var(--herb-green);
+  background: linear-gradient(135deg, var(--herb-green), var(--herb-green-light));
   color: white;
+  border-color: var(--herb-green-light);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(var(--herb-green-rgb), 0.3);
+}
+
+.add-address-button:hover::before {
+  transform: translateY(-50%) rotate(90deg);
 }
 
 .address-form {
-  background-color: var(--herb-cream);
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  margin-top: 1rem;
+  background: linear-gradient(135deg, var(--herb-cream) 0%, #f8fffe 100%);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  margin-top: 1.5rem;
+  border: 2px solid rgba(var(--herb-green-rgb), 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.address-form::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(var(--herb-green-rgb), 0.03) 0%, transparent 70%);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 640px) {
@@ -121,41 +313,112 @@
 .form-group {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .form-label {
   font-weight: 600;
   color: var(--herb-green-dark);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .form-input {
-  padding: 0.75rem;
+  padding: 1rem 1.25rem;
   border: 2px solid rgba(var(--herb-green-rgb), 0.2);
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   background: white;
   color: var(--herb-green-dark);
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .form-input:focus {
   outline: none;
   border-color: var(--herb-green);
+  box-shadow: 0 0 0 3px rgba(var(--herb-green-rgb), 0.1);
+  background: linear-gradient(135deg, white 0%, rgba(var(--herb-green-rgb), 0.02) 100%);
+}
+
+.form-input:hover {
+  border-color: var(--herb-green-light);
 }
 
 .save-address-button {
   width: 100%;
-  background-color: var(--herb-green);
+  background: linear-gradient(135deg, var(--herb-green), var(--herb-green-light));
   color: white;
-  padding: 0.75rem;
+  padding: 1.25rem;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
   cursor: pointer;
-  font-weight: 600;
-  margin-top: 1rem;
-  transition: background-color 0.3s ease;
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(var(--herb-green-rgb), 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.save-address-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.save-address-button:hover::before {
+  left: 100%;
 }
 
 .save-address-button:hover {
-  background-color: var(--herb-green-dark);
+  background: linear-gradient(135deg, var(--herb-green-light), var(--herb-green));
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(var(--herb-green-rgb), 0.4);
+}
+
+/* Add icons to form labels */
+.form-label[for="name"]::before { content: '👤'; }
+.form-label[for="phone"]::before { content: '📱'; }
+.form-label[for="pincode"]::before { content: '📮'; }
+.form-label[for="city"]::before { content: '🏙️'; }
+.form-label[for="street"]::before { content: '🛤️'; }
+.form-label[for="landmark"]::before { content: '🏛️'; }
+.form-label[for="state"]::before { content: '🗺️'; }
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .address-title::after {
+    right: -2rem;
+    font-size: 1.25rem;
+  }
+  
+  .address-card {
+    padding: 1rem;
+  }
+  
+  .address-form {
+    padding: 1.5rem;
+  }
+  
+  .address-actions {
+    flex-direction: column;
+  }
+  
+  .set-default-button,
+  .delete-address-button {
+    text-align: center;
+  }
 }
