@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import AddressSection from "@/components/AddressSection";
+import type { Address } from "@/components/AddressSection"; // This line will error: Address is not exported. Remove or fix.
 import CartSummary from "@/components/CartSummary";
 import "@/styles/components/checkout.css";
+import toast from "react-hot-toast";
 declare global {
   interface Window {
     Razorpay: any;
@@ -17,6 +19,7 @@ const CheckoutPage = () => {
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
   const { isLoggedIn, user } = useAuthStore();
   const router = useRouter();
+  const [selectedAddress, setSelectedAddress] = useState<any>(null);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -35,17 +38,28 @@ const CheckoutPage = () => {
   }, [isLoggedIn, router]);
 
   const handlePaySecurely = async () => {
-    const res = await fetch("/api/payment/create", {
-      method: "POST",
-      body: JSON.stringify({
-        amount: 1000 * 100,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    console.log("data", data);
+    // if (!selectedAddress) {
+    //   toast.error("Please select an address before proceeding.");
+    //   return;
+    // }
+    let data;
+    try {
+      const res = await fetch("/api/payment/create", {
+        method: "POST",
+        body: JSON.stringify({
+          amount: 1000 * 100,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Payment initiation failed");
+    } catch (err) {
+      toast.error("Failed to initiate payment. Please try again.");
+      console.error("Payment error:", err);
+      return;
+    }
     const paymentData = {
       key: data.key,
       amount: 1000 * 100,
@@ -57,28 +71,37 @@ const CheckoutPage = () => {
         // Save order to Firestore
         const cart = JSON.parse(localStorage.getItem("cart") || "[]");
         const orderPayload = {
-          userId: user?.id || (user && "uid" in user ? user.uid : null),
+          userId: user?.id || user?.uid,
           user,
           cart,
+          address: selectedAddress, // ✅ Include this
           payment: {
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_order_id: response.razorpay_order_id,
             razorpay_signature: response.razorpay_signature,
           },
-          address: null, // TODO: Replace with actual address info
         };
         try {
-          await fetch("/api/orders/create", {
+          const orderRes = await fetch("/api/orders/create", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(orderPayload),
           });
-        } catch {
-          // Optionally handle error (e.g., show toast)
+          const orderData = await orderRes.json();
+          if (!orderRes.ok)
+            throw new Error(orderData.error || "Order creation failed");
+          // Clear cart and redirect to success page
+          localStorage.removeItem("cart");
+          window.location.href = "/checkout/success";
+        } catch (err) {
+          toast.error("Failed to place order. Please contact support.");
+          console.error("Order error:", err);
         }
-        // Clear cart and redirect to success page
-        localStorage.removeItem("cart");
-        window.location.href = "/checkout/success";
+      },
+      modal: {
+        ondismiss: function () {
+          toast("Payment cancelled.");
+        },
       },
     };
     const rzp1 = new window.Razorpay(paymentData);
@@ -92,7 +115,7 @@ const CheckoutPage = () => {
 
         <div className="checkout-content">
           <div className="checkout-left">
-            <AddressSection />
+            <AddressSection onSelectAddress={setSelectedAddress} />
           </div>
 
           <div className="checkout-right">

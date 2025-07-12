@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import "@/styles/components/address.css";
 import { useRouter } from "next/navigation";
 
-interface Address {
+export interface Address {
   id: string;
   name: string;
   phone: string;
@@ -24,7 +24,11 @@ interface Address {
   isDefault?: boolean;
 }
 
-const AddressSection = () => {
+interface AddressSectionProps {
+  onSelectAddress?: (address: Address) => void;
+}
+
+const AddressSection = ({ onSelectAddress }: AddressSectionProps) => {
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   const [showForm, setShowForm] = useState(false);
   const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
@@ -258,7 +262,10 @@ const AddressSection = () => {
             className={`address-card ${
               selectedAddress === address.id ? "selected" : ""
             } ${address.isDefault ? "default" : ""}`}
-            onClick={() => setSelectedAddress(address.id)}
+            onClick={() => {
+              setSelectedAddress(address.id);
+              if (onSelectAddress) onSelectAddress(address);
+            }}
           >
             <div className="address-content">
               <h3 className="address-name">{address.name}</h3>
