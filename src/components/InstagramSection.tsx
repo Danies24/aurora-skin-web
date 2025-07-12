@@ -8,27 +8,23 @@ const InstagramSection = () => {
   const instagramPosts = [
     {
       id: 1,
-      image:
-        "https://images.unsplash.com/photo-1518495973542-4542c06a5843?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      link: "https://instagram.com/herbaurora",
+      image: "/images/instagram/reel1.jpg", // <-- Use your own thumbnail image here
+      link: "https://www.instagram.com/reel/DL_9wgByJH2/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
     {
       id: 2,
-      image:
-        "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      link: "https://instagram.com/herbaurora",
+      image: "/images/instagram/reel2.jpg",
+      link: "https://www.instagram.com/reel/DL_9wgByJH2/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
     {
       id: 3,
-      image:
-        "https://images.unsplash.com/photo-1518495973542-4542c06a5843?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      link: "https://instagram.com/herbaurora",
+      image: "/images/instagram/reel3.jpg",
+      link: "https://www.instagram.com/reel/DL_9wgByJH2/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
     {
       id: 4,
-      image:
-        "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      link: "https://instagram.com/herbaurora",
+      image: "/images/instagram/reel4.jpg",
+      link: "https://www.instagram.com/reel/DL_9wgByJH2/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
   ];
 
@@ -51,15 +47,32 @@ const InstagramSection = () => {
               rel="noopener noreferrer"
               className="instagram-item"
             >
-              <Image
-                src={post.image}
-                alt="Instagram post"
-                width={400}
-                height={400}
-                className="instagram-image"
-              />
-              <div className="instagram-overlay">
-                <Instagram className="instagram-icon" />
+              <div style={{ position: "relative" }}>
+                <Image
+                  src={post.image}
+                  alt="Instagram Reel thumbnail"
+                  width={400}
+                  height={400}
+                  className="instagram-image"
+                />
+                <div className="instagram-overlay">
+                  <span
+                    className="play-button"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      fontSize: 64,
+                      color: "white",
+                      textShadow: "0 0 10px black",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    ▶️
+                  </span>
+                  <Instagram className="instagram-icon" />
+                </div>
               </div>
             </a>
           ))}

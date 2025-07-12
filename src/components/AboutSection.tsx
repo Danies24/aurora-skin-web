@@ -10,7 +10,7 @@ const AboutSection = () => {
   const benefits = [
     "Natural skin glow",
     "Effective tan removal",
-    "100% baby-safe ingredients",
+    "100% baby-safe",
     "Completely chemical-free",
   ];
 

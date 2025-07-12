@@ -16,10 +16,10 @@ const WhatsAppFloat = () => {
       <button
         onClick={handleWhatsAppClick}
         className="whatsapp-button"
-        aria-label="Order on WhatsApp"
+        aria-label="Chat on WhatsApp"
       >
         <FaWhatsapp className="whatsapp-icon" />
-        <span className="whatsapp-text">Order on WhatsApp</span>
+        <span className="whatsapp-text">Chat on WhatsApp</span>
       </button>
     </div>
   );

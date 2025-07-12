@@ -60,15 +60,17 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
         <button className="search-modal-close" onClick={onClose}>
           <FaTimes />
         </button>
-        <form onSubmit={handleSearch} className="search-form">
-          <input
-            ref={inputRef}
-            type="text"
-            className="search-input"
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+        <div className="search-form-container">
+          <form onSubmit={handleSearch} className="search-form">
+            <input
+              ref={inputRef}
+              type="text"
+              className="search-input"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </form>
           <button
             type="submit"
             className="search-button"
@@ -76,7 +78,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
           >
             <FaSearch className="search-icon" />
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );
